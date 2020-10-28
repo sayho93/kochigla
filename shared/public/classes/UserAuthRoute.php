@@ -105,6 +105,33 @@ class UserAuthRoute extends FileRoute {
         }
     }
 
+    function updateUser(){
+        $id = $_REQUEST["id"];
+//        $pwd = $this->encryptAES256($_REQUEST["pwd"]);
+        $age = $_REQUEST["age"];
+        $sex = $_REQUEST["sex"];
+        $phone = $_REQUEST["phone"];
+
+        $thumbId = $_REQUEST["thumbId"];
+        $thumb = $_FILES["img"];
+        if($thumb["tmp_name"][0] != ""){
+            $tmp = self::procFiles($thumb, $id);
+            $thumbId = $tmp[$thumb["name"][0]["id"]];
+        }
+
+        $ins = "
+            UPDATE tblUser 
+            SET
+                `age` = '{$age}',
+                `sex` = '{$sex}',
+                `phone` = '{$phone}',
+                `thumbId` = '{$thumbId}'
+            WHERE `id` = '{$id}'
+        ";
+        self::update($ins);
+        return self::response(1, "저장되었습니다.");
+    }
+
     function requestLogout(){
         AuthUtil::requestLogout();
         return Routable::response(1, "정상적으로 로그아웃되었습니다.");

@@ -50,7 +50,43 @@
             });
 
             $(".jSave").click(function(){
-                alert();
+                var data = new FormData($("#userForm")[0]);
+                data.append("sex", $(".jSex option:selected").val());
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url : "/mygift/shared/public/route.php?F=UserAuthRoute.updateUser",
+                    cache : false,
+                    async : true,
+                    method : "post",
+                    dataType : "json",
+                    contentType: false,
+                    processData: false,
+                    data : data,
+                    success : function(data){
+                        console.log("[AJAX RESPONSE] " + data);
+                        var retData = JSON.parse(data);
+                        if(retData.returnCode > 0){
+                            if(retData.returnCode > 1){
+                            }else{
+                                swal({
+                                    title: "알림",
+                                    text: retData.returnMessage,
+                                    icon: "success",
+                                    closeOnClickOutside: false,
+                                }).then((result) => {
+                                    if(result) location.reload();
+                                });
+                            }
+                        }else{
+                            swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                        }
+                    },
+                    error : function(req, stat, err){
+                        console.log("[AJAX ERROR] REQUEST : " + req + " / STATUS : " + stat + " / ERROR : " + err);
+                    }
+                });
             });
         });
     </script>
@@ -68,7 +104,9 @@
                                 <h4 class="button fit"><?=$user["email"]?></h4>
                                 <h5 class="button fit jGoBalance"><i class="icon fa-database"></i> 내 포인트 : <?=$pUnit?>P</h5>
 
-                                <form method="post" action="#">
+                                <form id="userForm" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="id" value="<?=$user["id"]?>"/>
+                                    <input type="hidden" name="thumbId" value="<?=$user["thumbId"]?>"/>
                                     <div class="row gtr-uniform gtr-50" style="margin-top: 1.0rem">
                                         <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
                                             <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $user["thumbId"]?>" id="preview0" class="img-thumbnail text-center" style="width: 100%; display: <?=$user["thumbId"] ? "" : "none"?>"/>
@@ -91,13 +129,13 @@
 
                                         <div class="col-12 col-12-xsmall">
                                             <label for="jAge">나이</label>
-                                            <input class="jAge" type="text" name="age" placeholder="<?=$user["age"]?>" />
+                                            <input class="jAge" type="text" name="age" value="<?=$user["age"]?>" placeholder="나이" />
                                         </div>
 
                                         <div class="col-12 col-12-xsmall">
                                             <label for="jSex">성별</label>
                                             <select class="jSex">
-                                                <option value="">선택</option>
+                                                <option value="-1" <?=$user["sex"] == -1 ? "selected" : ""?>>선택</option>
                                                 <option value="1" <?=$user["sex"] == 1 ? "selected" : ""?>>남자</option>
                                                 <option value="0" <?=$user["sex"] == 0 ? "selected" : ""?>>여자</option>
                                             </select>

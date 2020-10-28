@@ -184,7 +184,7 @@
                                         <div class="col-12 col-12-xsmall">
                                             <label for="jSex">성별</label>
                                             <select class="jSex">
-                                                <option value="">선택</option>
+                                                <option value="-1">선택</option>
                                                 <option value="1">남자</option>
                                                 <option value="0">여자</option>
                                             </select>

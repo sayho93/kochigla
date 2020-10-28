@@ -42,7 +42,7 @@
 					<div class="container">
 						<header class="major">
 							<h2>공지사항</h2>
-                            <p>풀어줘의 새로운 소식</p>
+                            <p>Kochigla의 새로운 소식</p>
 						</header>
 
 						<!-- Content -->
