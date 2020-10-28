@@ -1,0 +1,167 @@
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/WebRoute.php"; ?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/PayRoute.php"; ?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/StoreRoute.php"; ?>
+<?
+    $PC_IS_INDEX = false;
+    if(basename($_SERVER['PHP_SELF']) == "index.php") $PC_IS_INDEX = true;
+
+    $route = new WebRoute();
+    $payRoute = new PayRoute();
+    $storeRoute = new StoreRoute();
+
+    $categoryList = $storeRoute->getCategoryList();
+
+    $email = $route->getProperty("WEB_EMAIL");
+    $link_fb = $route->getProperty("WEB_FACEBOOK");
+    $hit = $route->getProperty("WEB_HIT");
+
+    $balance = 0;
+    if(AuthUtil::isLoggedIn()){
+        $balance = $payRoute->getPoint(AuthUtil::getLoggedInfo()->id);
+    }
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>풀어줘 :: 우리 일상 속 숨겨진 보물</title>
+    <meta charset="utf-8" />
+    <meta name="theme-color" content="#272833">
+    <meta name="msapplication-TileColor" content="#272833">
+    <meta name="msapplication-navbutton-color" content="#272833">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#272833">
+    <meta name="og:title" content="풀어줘 - Solve me!">
+    <meta name="og:description" content="우리 일상 속 숨겨진 보물을 찾아보세요">
+    <meta name="og:image" content="http://picklecode.co.kr/mygift.png">
+    <meta name="description" content="전국 모든 대학의 맞춤형 솔루션을 제공합니다.">
+    <meta name="keywords" content="대학, 대학원, 시험, 중간고사, 기말고사, 족보, 시험지, 과제, 풀이, 솔루션">
+    <meta name="author" content="PickleCode">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload <?=$PC_IS_INDEX ? "landing" : ""?>">
+<div id="page-wrapper">
+    <!-- Header -->
+    <header id="header">
+        <h1 id="logo"><a href="index.php" class=""><img src="images/main_light.png" height="45px" alt="" /></a></h1>
+        <nav id="nav">
+            <ul>
+                <li><a href="index.php">홈</a></li>
+                <li>
+                    <a href="search.php?type=A">작품검색</a>
+                    <ul>
+                        <li><a href="search.php">전체</a></li>
+                        <?foreach($categoryList as $categoryItem){?>
+                        <li><a href="search.php?id=<?=$categoryItem["id"]?>">
+                                <?=$categoryItem["categoryName"]?>(<?=$categoryItem["alterName"]?>)
+                            </a></li>
+                        <?}?>
+                    </ul>
+                </li>
+                <li>
+                    <a href="news.php">뉴스피드</a>
+                </li>
+                <li><a href="faq.php">FAQ</a></li>
+                <li><a href="notice.php">공지사항</a></li>
+                <?
+                if(AuthUtil::isLoggedIn()){
+                $displayName =
+                    AuthUtil::getLoggedInfo()->name;
+                ?>
+                <li>
+                    <a href="#"><i class="icon fa-user"></i> <?=$displayName?>님</a>
+                    <ul>
+                        <li><a href="balance.php" class="icon fa-database"> 내 포인트 : <?=$balance?>P</a></li>
+                        <li><a href="profile.php" class="">마이페이지</a></li>
+                        <li><a href="data.php" class="">내 작품 목록</a></li>
+                        <li><a href="store.php?id=<?=AuthUtil::getLoggedInfo()->id?>" class="">내 상점</a></li>
+                        <li><a href="logout.php" class="jLogoutNav">로그아웃</a></li>
+                    </ul>
+                </li>
+                <?}else{?>
+                <li><a href="login.php" class="button primary">로그인</a></li>
+                <?}?>
+            </ul>
+        </nav>
+    </header>
+    <!-- Scripts -->
+    <link rel="stylesheet" type="text/css" href="js/snackbar.min.css" />
+
+    <!-- BootPay -->
+    <script src="https://cdn.bootpay.co.kr/js/bootpay-2.0.20.min.js" type="application/javascript"></script>
+
+    <script src="js/snackbar.min.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/AjaxUtil.js"></script>
+    <script type="text/javascript" src="js/payUtil.js"></script>
+
+    <!-- PolyFill -->
+    <script src="shared/lib/polyfill/es6-promise.auto.min.js"></script>
+    <script src="shared/lib/polyfill/browser-polyfill.min.js"></script>
+    <script src="shared/lib/filepond/filepond-polyfill.js"></script>
+    <script src="shared/lib/polyfill/babel.min.js"></script>
+
+    <!-- Filepond -->
+    <link rel="stylesheet" type="text/css" href="shared/lib/filepond/filepond.css" />
+    <link href="shared/lib/filepond/filepond-plugin-image-preview.css" rel="stylesheet">
+
+    <script src="shared/lib/filepond/filepond.js"></script>
+    <script src="shared/lib/filepond/filepond-plugin-file-validate-size.js"></script>
+    <script src="shared/lib/filepond/filepond-plugin-image-validate-size.js"></script>
+    <script src="shared/lib/filepond/filepond-plugin-image-exif-orientation.js"></script>
+    <script src="shared/lib/filepond/filepond-plugin-image-preview.js"></script>
+
+    <style>
+        .filepond--drop-label{
+            color : #777;
+        }
+
+        .filepond--drop-label label{
+            color : #777;
+        }
+    </style>
+
+    <script>
+        var pond = null;
+
+        $(document).ready(function(){
+            $(".jLogoutNav").click(function(){
+                callJson(
+                    "/mygift/shared/public/route.php?F=UserAuthRoute.requestLogout",
+                    null, function(data){
+                        if(data.returnCode == 1){
+//                            alert(data.returnMessage);
+                            location.href = "index.php";
+                        }else{
+                            alert("오류가 발생하였습니다.\n관리자에게 문의하세요.");
+                        }
+                    }
+                );
+            });
+
+            var coll = $(".collapsible");
+            for (var i = 0; i < coll.length; i++){
+                coll[i].addEventListener("click", function(){
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+
+                    if (content.style.maxHeight)
+                        content.style.maxHeight = null;
+                    else
+                        content.style.maxHeight = content.scrollHeight + "px";
+                });
+            }
+        });
+        function showSnackBar(text){
+            Snackbar.show({pos: 'bottom-left', duration:30000, text: text, actionText:'닫기', actionTextColor:'#e44c65'});
+        }
+
+        function hideFooter(){
+            $("#footer").hide();
+        }
+    </script>
+<? if(AuthUtil::isLoggedIn()){ include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/float_action.php"; } ?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/popups.php"; ?>
