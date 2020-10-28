@@ -1,34 +1,57 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/header.php"; ?>
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/PayRoute.php"; ?>
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/StoreRoute.php"; ?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/UserAuthRoute.php"; ?>
 <?
-if(!AuthUtil::isLoggedIn()){
-    echo "<script>alert('비정상적인 접근입니다.'); location.href='index.php';</script>";
-}
+    if(!AuthUtil::isLoggedIn()){
+        echo "<script>alert('비정상적인 접근입니다.'); location.href='index.php';</script>";
+    }
 
-$pRoute = new PayRoute();
-$uRoute = new StoreRoute();
-$pUnit = $pRoute->getPoint(AuthUtil::getLoggedInfo()->id);
+    $uRoute = new UserAuthRoute();
+    $pRoute = new PayRoute();
+    $sRoute = new StoreRoute();
+    $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
+    $pUnit = $pRoute->getPoint($user["id"]);
 
-$univ = "";
-$major = "";
-if(AuthUtil::getLoggedInfo()->univId != "0"){
-    $univ = $uRoute->getStore(AuthUtil::getLoggedInfo()->univId);
-}else{
-    // Do nothing
-}
+    $greetingArr = array(
+            "안녕하세요!", "반가워요!", "좋은 하루 보내고 계신가요?", "안녕하세요 :)"
+    );
 
-$greetingArr = array(
-        "안녕하세요!", "반가워요!", "좋은 하루 보내고 계신가요?", "안녕하세요 :)"
-);
-
-$greeting = $greetingArr[mt_rand(0, sizeof($greetingArr) - 1)];
+    $greeting = $greetingArr[mt_rand(0, sizeof($greetingArr) - 1)];
 ?>
+
     <script>
         $(document).ready(function(){
             buttonLink(".jGoBalance", "balance.php");
             buttonLink(".jModifyStore", "profile_u.php");
             buttonLink(".jModifyMajor", "profile_m.php");
+
+            $(document).on("click", ".browse", function(){
+                var idx = $(this).attr("idx");
+                var file = $(this).parents().find(".file").eq(idx);
+                file.trigger("click");
+            });
+
+            $(document).on("click", ".browseThumb", function(){
+                $("#thumbFile").trigger("click");
+            });
+
+            $('input.imgFile[type=file]').change(function(e){
+                var idx = $(this).attr("idx");
+                var fileName = e.target.files[0].name;
+                $("#file" + idx).val(fileName);
+
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    $("#preview" + idx).attr("src", e.target.result);
+                    $("#preview" + idx).fadeIn();
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $(".jSave").click(function(){
+                alert();
+            });
         });
     </script>
 			<!-- Main -->
@@ -38,38 +61,50 @@ $greeting = $greetingArr[mt_rand(0, sizeof($greetingArr) - 1)];
 							<h2>마이페이지</h2>
 						</header>
 
-                        <?
-                        $uvText = "학교 선택하기";
-                        $mjText = "학과/전공 선택하기(학교에 관계없이 선택 가능)";
-                        if($univ != ""){
-                            $uvText = $univ["title"]."(".$univ["campusType"].")";
-                        }
-                        if($major != ""){
-                            $mjText = $major["deptName"];
-                        }
-                        ?>
 						<!-- Content -->
 							<section id="content">
-                                <h4><?=AuthUtil::getLoggedInfo()->name?>님, <?=$greeting?></h4>
-                                <h4 class="button fit"><?=AuthUtil::getLoggedInfo()->email?></h4>
-                                <h5 class="button fit jModifyStore"><i class="icon fa-university"></i> <?=$uvText?></h5>
-                                <h5 class="button fit jModifyMajor"><i class="icon fa-book"></i> <?=$mjText?></h5>
+                                <h4><?=$user["name"]?>님, <?=$greeting?></h4>
+
+                                <h4 class="button fit"><?=$user["email"]?></h4>
                                 <h5 class="button fit jGoBalance"><i class="icon fa-database"></i> 내 포인트 : <?=$pUnit?>P</h5>
 
                                 <form method="post" action="#">
-                                    <div class="row gtr-uniform gtr-50">
-                                        <div class="col-12 col-12-xsmall">
-                                            <input class="jEmailTxt" type="email" name="email" id="email" value="" placeholder="이메일" />
+                                    <div class="row gtr-uniform gtr-50" style="margin-top: 1.0rem">
+                                        <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
+                                            <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $user["thumbId"]?>" id="preview0" class="img-thumbnail text-center" style="width: 100%; display: <?=$user["thumbId"] ? "" : "none"?>"/>
                                         </div>
+
                                         <div class="col-12 col-12-xsmall">
-                                            <input class="jPasswordTxt" type="password" name="password" id="password" value="" placeholder="패스워드" />
+                                            <label for="file0">프로필 사진</label>
+                                            <input type="file" name="img[]" class="file imgFile" idx="0" accept="image/*" style="display: none;">
+                                            <input type="text" class="form-control jImg" disabled placeholder="<?=$user["thumbId"] ? $user["thumbName"] : "업로드 파일명"?>" id="file0" />
                                         </div>
+                                        <div class="col-12 col-12-xsmall" style="margin-bottom: 1.0rem">
+                                            <div align="center">
+                                                <button type="button" class="browse button primary" idx="0">파일 선택</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-12-xsmall">
+                                            <input type="email" name="phone" id="phone" value="<?=$user["phone"]?>" placeholder="휴대전화" />
+                                        </div>
+
+                                        <div class="col-12 col-12-xsmall">
+                                            <label for="jAge">나이</label>
+                                            <input class="jAge" type="text" name="age" placeholder="<?=$user["age"]?>" />
+                                        </div>
+
+                                        <div class="col-12 col-12-xsmall">
+                                            <label for="jSex">성별</label>
+                                            <select class="jSex">
+                                                <option value="">선택</option>
+                                                <option value="1" <?=$user["sex"] == 1 ? "selected" : ""?>>남자</option>
+                                                <option value="0" <?=$user["sex"] == 0 ? "selected" : ""?>>여자</option>
+                                            </select>
+                                        </div>
+
                                         <div class="col-12 align-center">
-                                            <a href="#" class="jLogin button primary icon fa-sign-in small">이메일로 로그인</a>
-                                            <a href="join.php" class="button icon fa-edit small">회원가입</a>
-                                        </div>
-                                        <div class="col-12 col-12-xsmall align-center">
-                                            <a href="#" class="facebook button icon small fa-facebook">Facebook으로 로그인</a>
+                                            <a href="#" class="jSave button icon fa-sign-in small">저장하기</a>
                                         </div>
                                     </div>
                                 </form>

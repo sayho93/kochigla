@@ -2,7 +2,7 @@
 
 include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/Routable.php";
 
-class UserAuthRoute extends Routable {
+class UserAuthRoute extends FileRoute {
 
     function requestLogin(){
         $email = $_REQUEST["email"];
@@ -54,7 +54,7 @@ class UserAuthRoute extends Routable {
     }
 
     function getUser($no){
-        $slt = "SELECT * FROM tblUser WHERE `id`='{$no}'";
+        $slt = "SELECT *, (SELECT originName FROM tblFile WHERE id = thumbId) as thumbName FROM tblUser WHERE `id`='{$no}'";
         return $this->getRow($slt);
     }
 
@@ -62,6 +62,8 @@ class UserAuthRoute extends Routable {
         $email = $_REQUEST["email"];
         $pwd = $this->encryptAES256($_REQUEST["pwd"]);
         $name = $_REQUEST["name"];
+        $age = $_REQUEST["age"];
+        $sex = $_REQUEST["sex"];
         $from = $_REQUEST["from"];
         $recaptcha = $_REQUEST["recaptcha"];
         // Not necessary in server side
@@ -71,9 +73,27 @@ class UserAuthRoute extends Routable {
         if($val != null){
             return Routable::response(2, "이미 존재하는 이메일 계정입니다.");
         }else{
-            $ins = "INSERT INTO tblUser(email, `password`, `name`, `phone`, `from`, regDate)
-                    VALUES ('{$email}', '{$pwd}', '{$name}', '{$phone}', '{$from}', NOW())";
+            $ins = "INSERT INTO tblUser(email, `password`, `name`, `phone`, `age`, `sex`, `from`, regDate)
+                    VALUES ('{$email}', '{$pwd}', '{$name}', '{$phone}', '{$age}', '{$sex}', '{$from}', NOW())";
             $this->update($ins);
+            $id = self::mysql_insert_id();
+
+            $thumb = $_FILES["img"];
+            $tmp = "";
+            $thumbId = "";
+            if($thumb["tmp_name"][0] != ""){
+                $tmp = self::procFiles($thumb, $id);
+                $thumbId = $tmp[$thumb["name"][0]]["id"];
+            }
+
+            $ins = "
+                UPDATE tblUser
+                SET 
+                    `thumbId` = '{$thumbId}'
+                WHERE id = '{$id}'
+            ";
+            self::update($ins);
+
             $link = "http://".$_SERVER["HTTP_HOST"]."/mygift/shared/public/route.php?F=UserAuthRoute.authMail&authCode=".urlencode($this->encryptAES256($email));
             $sender = new EmailSender();
             $sender->sendMailTo(

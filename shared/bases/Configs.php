@@ -11,6 +11,7 @@ if(!class_exists("Configs")) {
 
         var $CONFIG;
         var $CONFIG_MODE;
+        var $PF_URL;
         var $PF_FILE_PATH;
         var $PF_FILE_TEMP_PATH;
         var $PF_FILE_DISPLAY_PATH;
@@ -42,6 +43,7 @@ if(!class_exists("Configs")) {
                     /**
                      * File Paths for DEV MODE
                      */
+                    URL => "http://localhost/mygift",
                     URL_PATH => $DOCUMENT_ROOT."/mygift/rawFiles",
                     URL_PATH_TEMP => $DOCUMENT_ROOT."/mygift/tempFiles",
                     URL_DISPLAY_PATH => "/mygift/rawFiles",
@@ -64,6 +66,7 @@ if(!class_exists("Configs")) {
                     /**
                      * File Paths for TEST MODE
                      */
+                    URL => "http://picklecode.co.kr/mygift",
                     URL_PATH => $DOCUMENT_ROOT."/mygift/rawFiles",
                     URL_PATH_TEMP => $DOCUMENT_ROOT."/mygift/tempFiles",
                     URL_DISPLAY_PATH => $DOCUMENT_ROOT."/mygift/file_display",
@@ -86,6 +89,7 @@ if(!class_exists("Configs")) {
                     /**
                      * File Paths for LIVE MODE
                      */
+                    URL => "http://picklecode.co.kr/mygift",
                     URL_PATH => $DOCUMENT_ROOT."/mygift/rawFiles",
                     URL_PATH_TEMP => $DOCUMENT_ROOT."/mygift/tempFiles",
                     URL_DISPLAY_PATH => $DOCUMENT_ROOT."/mygift/file_display",
@@ -111,6 +115,7 @@ if(!class_exists("Configs")) {
              * @apiNote DO NOT MODIFY UNLESS YOU EXACTLY KNOW WHAT YOU ARE DOING
              * @description Variables to be used by developers
              */
+            $this->PF_URL = $this->CONFIG[$this->CONFIG_MODE][URL];
             $this->PF_FILE_PATH = $this->CONFIG[$this->CONFIG_MODE][URL_PATH];
             $this->PF_FILE_TEMP_PATH = $this->CONFIG[$this->CONFIG_MODE][URL_PATH_TEMP];
             $this->PF_FILE_DISPLAY_PATH = $this->CONFIG[$this->CONFIG_MODE][URL_DISPLAY_PATH];

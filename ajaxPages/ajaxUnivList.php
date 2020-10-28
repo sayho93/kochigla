@@ -1,6 +1,6 @@
-<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/StoreRoute.php"; ?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/UnivRoute.php"; ?>
 <?
-$uroute = new StoreRoute();
+$uroute = new UnivRoute();
 $list = $uroute->getUnivList();
 ?>
 <? foreach ($list as $item){ ?>

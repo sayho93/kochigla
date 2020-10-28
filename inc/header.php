@@ -23,17 +23,17 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>풀어줘 :: 우리 일상 속 숨겨진 보물</title>
+    <title>Kochigla :: 여행의 동반자</title>
     <meta charset="utf-8" />
     <meta name="theme-color" content="#272833">
     <meta name="msapplication-TileColor" content="#272833">
     <meta name="msapplication-navbutton-color" content="#272833">
     <meta name="apple-mobile-web-app-status-bar-style" content="#272833">
     <meta name="og:title" content="풀어줘 - Solve me!">
-    <meta name="og:description" content="우리 일상 속 숨겨진 보물을 찾아보세요">
+    <meta name="og:description" content="여행 속 동행을 구해보세요">
     <meta name="og:image" content="http://picklecode.co.kr/mygift.png">
-    <meta name="description" content="전국 모든 대학의 맞춤형 솔루션을 제공합니다.">
-    <meta name="keywords" content="대학, 대학원, 시험, 중간고사, 기말고사, 족보, 시험지, 과제, 풀이, 솔루션">
+    <meta name="description" content="당신이 빛나던 순간을 함께할 나만의 여행 동행을 구해 보세요">
+    <meta name="keywords" content="여행, 동행, 동료, 국내여행, 제주도여행">
     <meta name="author" content="PickleCode">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -43,7 +43,8 @@
 <div id="page-wrapper">
     <!-- Header -->
     <header id="header">
-        <h1 id="logo"><a href="index.php" class=""><img src="images/main_light.png" height="45px" alt="" /></a></h1>
+<!--        <h1 id="logo"><a href="index.php" class=""><img src="images/main_light.png" height="45px" alt="" /></a></h1>-->
+        <h1 id="logo"><a href="index.php" class=""><img src="images/kochigla_logo.png" height="60px" alt="" /></a></h1>
         <nav id="nav">
             <ul>
                 <li><a href="index.php">홈</a></li>
@@ -113,6 +114,9 @@
     <script src="shared/lib/filepond/filepond-plugin-image-validate-size.js"></script>
     <script src="shared/lib/filepond/filepond-plugin-image-exif-orientation.js"></script>
     <script src="shared/lib/filepond/filepond-plugin-image-preview.js"></script>
+
+<!--    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+<!--    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
 
     <style>
         .filepond--drop-label{
