@@ -50,14 +50,14 @@
                 <li><a href="index.php">홈</a></li>
                 <li>
                     <a href="search.php?type=A">동행검색</a>
-                    <ul>
-                        <li><a href="search.php">전체</a></li>
-                        <?foreach($categoryList as $categoryItem){?>
-                        <li><a href="search.php?id=<?=$categoryItem["id"]?>">
-                                <?=$categoryItem["categoryName"]?>(<?=$categoryItem["alterName"]?>)
-                            </a></li>
-                        <?}?>
-                    </ul>
+<!--                    <ul>-->
+<!--                        <li><a href="search.php">전체</a></li>-->
+<!--                        --><?//foreach($categoryList as $categoryItem){?>
+<!--                        <li><a href="search.php?id=--><?//=$categoryItem["id"]?><!--">-->
+<!--                                --><?//=$categoryItem["categoryName"]?><!--(--><?//=$categoryItem["alterName"]?><!--)-->
+<!--                            </a></li>-->
+<!--                        --><?//}?>
+<!--                    </ul>-->
                 </li>
                 <li>
                     <a href="news.php">뉴스피드</a>

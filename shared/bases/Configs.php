@@ -103,9 +103,9 @@ if(!class_exists("Configs")) {
                      * Database Config for LIVE MODE
                      */
                     DATABASE_HOST => "picklecode.co.kr",
-                    DATABASE_NAME => "mygift",
-                    DATABASE_USER => "mygift",
-                    DATABASE_PASSWORD => "mygift!@#$",
+                    DATABASE_NAME => "kochigla",
+                    DATABASE_USER => "kochigla",
+                    DATABASE_PASSWORD => "kochigla!@#$",
                     DATABASE_CHARSET => "utf8"
                 )
             );

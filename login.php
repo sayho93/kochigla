@@ -40,6 +40,7 @@ if(AuthUtil::isLoggedIn()){
                     }
                 )
             }
+
         });
     </script>
 			<!-- Main -->
