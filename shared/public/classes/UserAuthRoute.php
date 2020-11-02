@@ -60,49 +60,60 @@ class UserAuthRoute extends FileRoute {
 
     function joinUser(){
         $email = $_REQUEST["email"];
-        $pwd = $this->encryptAES256($_REQUEST["pwd"]);
+        $pwd = $_REQUEST["pwd"] != "" ?  $this->encryptAES256($_REQUEST["pwd"]) : "";
         $name = $_REQUEST["name"];
-        $age = $_REQUEST["age"];
+        $age = $_REQUEST["age"] != "" ? $_REQUEST["age"] : 0;
         $sex = $_REQUEST["sex"];
         $from = $_REQUEST["from"];
         $recaptcha = $_REQUEST["recaptcha"];
         // Not necessary in server side
         $phone = $_REQUEST["phone"];
+        $oAuthId = $_REQUEST["oAuthId"];
+        $accessToken = $_REQUEST["accessToken"];
 
         $val = $this->getRow("SELECT * FROM tblUser WHERE email='{$email}' AND email != 'Unknown' LIMIT 1");
-        if($val != null){
-            return Routable::response(2, "이미 존재하는 이메일 계정입니다.");
-        }else{
-            $ins = "INSERT INTO tblUser(email, `password`, `name`, `phone`, `age`, `sex`, `from`, regDate)
-                    VALUES ('{$email}', '{$pwd}', '{$name}', '{$phone}', '{$age}', '{$sex}', '{$from}', NOW())";
-            $this->update($ins);
-            $id = self::mysql_insert_id();
+        if($val != null && $from != "NA") return Routable::response(2, "이미 존재하는 이메일 계정입니다.");
 
-            $thumb = $_FILES["img"];
-            $tmp = "";
-            $thumbId = "";
-            if($thumb["tmp_name"][0] != ""){
-                $tmp = self::procFiles($thumb, $id);
-                $thumbId = $tmp[$thumb["name"][0]]["id"];
-            }
+        $ins = "INSERT INTO tblUser(`email`, `password`, `name`, `phone`, `age`, `sex`, `from`, `oAuthId`, `accessToken`, regDate)
+                    VALUES ('{$email}', '{$pwd}', '{$name}', '{$phone}', '{$age}', '{$sex}', '{$from}', '{$oAuthId}', '{$accessToken}', NOW())";
+        $this->update($ins);
+        $id = self::mysql_insert_id();
 
-            $ins = "
-                UPDATE tblUser
-                SET 
-                    `thumbId` = '{$thumbId}'
-                WHERE id = '{$id}'
-            ";
-            self::update($ins);
+        $thumb = $_FILES["img"];
+        if($thumb["tmp_name"][0] != ""){
+            $tmp = self::procFiles($thumb, $id);
+            $thumbId = $tmp[$thumb["name"][0]]["id"];
+            self::update("UPDATE tblUser SET `thumbId` = '{$thumbId}' WHERE id = '{$id}'");
+        }
 
-            $link = "http://".$_SERVER["HTTP_HOST"]."/mygift/shared/public/route.php?F=UserAuthRoute.authMail&authCode=".urlencode($this->encryptAES256($email));
+        if($from != "NA"){
+            $link = "http://".$_SERVER["HTTP_HOST"]."{$this->PF_API}UserAuthRoute.authMail&authCode=".urlencode($this->encryptAES256($email));
             $sender = new EmailSender();
             $sender->sendMailTo(
-                "[풀어줘] 회원가입 인증 메일입니다.",
+                "[Kochigla] 회원가입 인증 메일입니다.",
                 "아래 링크를 클릭하여 인증을 완료해주세요.<br/><a href='$link'>인증 링크</a><br/>본 서비스를 신청하지 않으셨다면 즉시 본 이메일로 회신바랍니다.",
                 $email, $name
-                );
+            );
             return Routable::response(1, "가입 처리가 완료되었습니다.\n입력하신 이메일로 인증 링크가 발송되었습니다.");
+        }else{
+            self::update("UPDATE tblUser SET `status` = 1 WHERE `oAuthId` = '{$oAuthId}'");
+            return Routable::response(1, "가입 처리가 완료되었습니다.");
         }
+    }
+
+    function checkUser(){
+        $oAuthId = $_REQUEST["oAuthId"];
+        $ins = "SELECT * FROM tblUser WHERE `oAuthId` = '{$oAuthId}' AND `status` = 1 LIMIT 1";
+        $val = self::getRow($ins);
+        if($val != null) return Routable::response(-1, "이미 존재하는 계정입니다.");
+        else return Routable::response(1, "사용할 수 있는 계정입니다.");
+    }
+
+    function renewUserToken(){
+        $oAuthId = $_REQUEST["id"];
+        $token = $_REQUEST["accessToken"];
+        self::update("UPDATE tblUser SET `accessToken` = '{$token}' WHERE `oAuthId` = '{$oAuthId}'");
+        return self::response(1, "succ");
     }
 
     function updateUser(){

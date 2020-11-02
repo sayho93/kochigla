@@ -24,6 +24,7 @@ define("ROUTE_PARAMETER_UPPER", "F");
 define("URL_DISPLAY_PATH", "URL_DISPLAY_PATH");
 define("URL", "URL");
 define("URL_PATH", "URL_PATH");
+define("API_PATH", "API_PATH");
 define("URL_PATH_TEMP", "URL_PATH_TEMP");
 define("URL_PATH_1080", "URL_PATH_1080");
 define("URL_PATH_720", "URL_PATH_720");

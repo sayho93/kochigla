@@ -100,10 +100,10 @@
     <script type="text/javascript" src="js/payUtil.js"></script>
 
     <!-- PolyFill -->
-    <script src="shared/lib/polyfill/es6-promise.auto.min.js"></script>
-    <script src="shared/lib/polyfill/browser-polyfill.min.js"></script>
-    <script src="shared/lib/filepond/filepond-polyfill.js"></script>
-    <script src="shared/lib/polyfill/babel.min.js"></script>
+<!--    <script src="shared/lib/polyfill/es6-promise.auto.min.js"></script>-->
+<!--    <script src="shared/lib/polyfill/browser-polyfill.min.js"></script>-->
+<!--    <script src="shared/lib/filepond/filepond-polyfill.js"></script>-->
+<!--    <script src="shared/lib/polyfill/babel.min.js"></script>-->
 
     <!-- Filepond -->
     <link rel="stylesheet" type="text/css" href="shared/lib/filepond/filepond.css" />
