@@ -23,6 +23,18 @@ class UserAuthRoute extends FileRoute {
         }
     }
 
+    function requestNALogin(){
+        $id = $_REQUEST["id"];
+        $token = $_REQUEST["accessToken"];
+
+        $val = $this->getRow("SELECT * FROM tblUser WHERE oAuthId = '{$id}' AND status = 1 LIMIT 1");
+        if($val != null){
+            AuthUtil::requestLogin($val);
+            self::update("UPDATE tblUser SET accessDate = NOW(), `accessToken` = '{$token}' WHERE `id` = '{$val["id"]}'");
+            return Routable::response(1, "정상적으로 로그인 되었습니다.");
+        }
+    }
+
     function invalidate(){
         $flag = AuthUtil::invalidateCurrentInfo($this->getUser(AuthUtil::getLoggedInfo()->id));
         if($flag) return self::response(1, "갱신되었습니다.");
@@ -107,13 +119,6 @@ class UserAuthRoute extends FileRoute {
         $val = self::getRow($ins);
         if($val != null) return Routable::response(-1, "이미 존재하는 계정입니다.");
         else return Routable::response(1, "사용할 수 있는 계정입니다.");
-    }
-
-    function renewUserToken(){
-        $oAuthId = $_REQUEST["id"];
-        $token = $_REQUEST["accessToken"];
-        self::update("UPDATE tblUser SET `accessToken` = '{$token}' WHERE `oAuthId` = '{$oAuthId}'");
-        return self::response(1, "succ");
     }
 
     function updateUser(){

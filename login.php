@@ -12,9 +12,7 @@
     <script>
         $(document).ready(function(){
             $(".jInputLogin").keydown(function(key) {
-                if (key.keyCode == 13) {
-                    doLogin();
-                }
+                if(key.keyCode == 13) doLogin();
             });
 
             $(".jLogin").click(function(){
@@ -26,34 +24,26 @@
                     swal ( "알림" ,  "회원 정보를 입력하세요.", "error" );
                     return;
                 }
-                callJson("<?=$API_PATH?>UserAuthRoute.requestLogin",
-                    {
+                callJson("<?=$API_PATH?>UserAuthRoute.requestLogin", {
                         email : $(".jEmailTxt").val(),
                         pwd : $(".jPasswordTxt").val()
-                    }
-                    , function(data){
+                    }, function(data){
                         if(data.returnCode > 0){
-                            if(data.returnCode > 1){
-                                swal ( "알림" ,  data.returnMessage, "info" );
-                            }else{
-                                location.href = "index.php";
-                            }
-                        }else{
-                            swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                            if(data.returnCode > 1) swal ( "알림" ,  data.returnMessage, "info" );
+                            else location.href = "index.php";
                         }
+                        else swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
                     }
                 )
             }
 
-            var naverLogin = new naver.LoginWithNaverId(
-                {
+            var naverLogin = new naver.LoginWithNaverId({
                     clientId: "geLGWRn0PuvRYhy3Pm0X",
                     callbackUrl: "http://localhost/mygift/login.php",
                     isPopup: false,
                     loginButton: {color: "green", type: 3, height: 45},
                     callbackHandle: true
-                }
-            );
+            });
             naverLogin.init();
 
             window.addEventListener('load', function(){
@@ -76,15 +66,9 @@
                             return;
                         }
 
-                        // console.log(naverLogin.user);
-                        // console.log(naverLogin.accessToken);
-                        // console.log(naverLogin.accessToken.accessToken);
-                        // return;
-
                         callJson("<?=$API_PATH?>UserAuthRoute.checkUser", {
                                 oAuthId : oAuthId,
-                            },
-                            function(data){
+                            }, function(data){
                                 if(data.returnCode === 1){
                                     swal({
                                         title: "알림",
@@ -95,23 +79,25 @@
                                             'Ok'
                                         ],
                                         dangerMode: true,
-                                    }).then(function(isConfirm){
+                                    }).then((isConfirm) => {
                                         if(isConfirm) oAuthJoin();
                                     })
                                 }else{
-                                    callJson("<?=$API_PATH?>UserAuthRoute.renewUserToken", {
+                                    callJson("<?=$API_PATH?>UserAuthRoute.requestNALogin", {
                                             id: oAuthId,
                                             accessToken: accessToken.accessToken
-                                        },
-                                        function(data){
-                                            // location.href = "/";
+                                        }
+                                        , function(data){
+                                            if(data.returnCode === 1){
+                                                location.href = "/mygift";
+                                            }else{
+                                                swal("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
+                                            }
                                         }
                                     )
                                 }
                             }
                         )
-
-
                     }else{
                         console.log("callback 처리에 실패하였습니다.");
                     }
@@ -135,8 +121,7 @@
                         from: "NA",
                         age: age,
                         "accessToken": accessToken.accessToken,
-                    },
-                    function(data){
+                    }, function(data){
                         if(data.returnCode > 1){
                         } else {
                             swal({
