@@ -123,4 +123,28 @@ class BoardRoute extends FileRoute {
         return $this->getArray($sql);
     }
 
+
+    function registerSearch(){
+        $id = $_REQUEST["id"] == null ? 0 : $_REQUEST["id"];
+        $userId = AuthUtil::getLoggedInfo()->id;
+        $address  = $_REQUEST["address"];
+        $startDate = $_REQUEST["startDate"];
+        $endDate = $_REQUEST["endDate"];
+        $sex = $_REQUEST["sex"];
+        $title = $_REQUEST["title"];
+        $content = $_REQUEST["content"];
+
+        self::update("
+            INSERT INTO tblSearch(`id`, `userId`, `address`, `startDate`, `endDate`, `sex`, `title`, `content`)
+            VALUES('{$id}', '{$userId}', '{$address}', '{$startDate}', '{$endDate}', '{$sex}', '{$title}', '{$content}')
+            ON DUPLICATE KEY UPDATE    
+                `address` = '{$address}',
+                `startDate` = '{$startDate}',
+                `endDate` = '{$endDate}',
+                `sex` = '{$sex}',
+                `title` = '{$title}',
+                `content` = '{$content}'
+        ");
+        return self::response(1, "저장되었습니다.");
+    }
 }

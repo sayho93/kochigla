@@ -69,10 +69,7 @@
                                         title: "알림",
                                         text: "가입되지 않은 계정입니다. 가입을 진행하시겠습니까?",
                                         icon: "info",
-                                        buttons: [
-                                            'Cancel',
-                                            'Ok'
-                                        ],
+                                        buttons: ['Cancel', 'Ok'],
                                         dangerMode: true,
                                     }).then((isConfirm) => {
                                         if(isConfirm) oAuthJoin();
