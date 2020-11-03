@@ -53,12 +53,6 @@
                         var name  = naverLogin.user.getName();
                         var oAuthId = naverLogin.user.getId();
                         var accessToken = naverLogin.accessToken;
-                        if( email == undefined || email == null){
-                            swal("info", "이메일은 필수정보입니다. 정보제공을 동의해주세요.", "error").then(() => {
-                                naverLogin.reprompt();
-                            })
-                            return;
-                        }
                         if( name == undefined || name == null){
                             swal("info", "이름은 필수정보입니다. 정보제공을 동의해주세요.", "error").then(() => {
                                 naverLogin.reprompt();
@@ -82,24 +76,12 @@
                                     }).then((isConfirm) => {
                                         if(isConfirm) oAuthJoin();
                                     })
-                                }else{
-                                    callJson("<?=$API_PATH?>UserAuthRoute.requestNALogin", {
-                                            id: oAuthId,
-                                            accessToken: accessToken.accessToken
-                                        }
-                                        , function(data){
-                                            if(data.returnCode === 1){
-                                                location.href = "/mygift";
-                                            }else{
-                                                swal("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
-                                            }
-                                        }
-                                    )
                                 }
+                                else doNALogin(oAuthId, accessToken);
                             }
                         )
                     }else{
-                        console.log("callback 처리에 실패하였습니다.");
+                        console.log("auth expired");
                     }
                 });
             });
@@ -122,17 +104,28 @@
                         age: age,
                         "accessToken": accessToken.accessToken,
                     }, function(data){
-                        if(data.returnCode > 1){
-                        } else {
+                        if(data.returnCode > 1){}
+                        else{
                             swal({
                                 title: "알림",
                                 text: data.returnMessage,
                                 icon: "success",
                                 closeOnClickOutside: false,
                             }).then((result) => {
-                                if (result) location.href = "index.php";
+                                if(result) doNALogin(oAuthId, accessToken);
                             });
                         }
+                    }
+                )
+            }
+
+            function doNALogin(oAuthId, accessToken){
+                callJson("<?=$API_PATH?>UserAuthRoute.requestNALogin", {
+                        id: oAuthId,
+                        accessToken: accessToken.accessToken
+                    }, function(data){
+                        if(data.returnCode === 1) location.href = "/mygift";
+                        else swal("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
                     }
                 )
             }

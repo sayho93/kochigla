@@ -123,7 +123,6 @@ class UserAuthRoute extends FileRoute {
 
     function updateUser(){
         $id = $_REQUEST["id"];
-//        $pwd = $this->encryptAES256($_REQUEST["pwd"]);
         $age = $_REQUEST["age"];
         $sex = $_REQUEST["sex"];
         $phone = $_REQUEST["phone"];
