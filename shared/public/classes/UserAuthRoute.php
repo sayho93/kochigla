@@ -57,7 +57,6 @@ class UserAuthRoute extends FileRoute {
                 "url" => "http://".$_SERVER["HTTP_HOST"]."/mygift/index.php?msg=유효하지%20않은%20요청입니다."
             );
         }
-
         return $retVal;
     }
 

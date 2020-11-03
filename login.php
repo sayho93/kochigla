@@ -131,14 +131,13 @@
             }
         });
     </script>
-			<!-- Main -->
+
 				<div id="main" class="wrapper style1">
 					<div class="container">
 						<header class="major">
 							<h2>회원 로그인</h2>
 						</header>
 
-						<!-- Content -->
 							<section id="content">
                                 <form method="post" action="#">
                                     <div class="row gtr-uniform gtr-50">
@@ -163,5 +162,4 @@
 					</div>
 				</div>
 
-			<!-- Footer -->
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/footer.php"; ?>

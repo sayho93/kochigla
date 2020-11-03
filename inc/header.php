@@ -117,6 +117,8 @@
 
 <!--    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 <!--    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <script src="assets/js/jquery.datetimepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.datetimepicker.css"/>
 
     <style>
         .filepond--drop-label{

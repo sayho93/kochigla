@@ -5,18 +5,8 @@
         });
     </script>
     <!-- Main -->
-    <section id="banner" class="ribbon fixedSmall" style="background-image: url('./images/main_icon.png');">
+    <section id="one" class="wrapper style2" style="">
         <div class="content">
-            <header>
-                <h2>우리 일상 속 숨겨진 보물을 찾아보세요</h2>
-                <p>당신이 기다리고 원하던 일상 속 아름다움을 찾고,<br />
-                    소중한 당신의 작품을 손쉽게 선보이세요!</p>
-            </header>
-            <div class="container">
-                <header>
-                </header>
-                <p>test</p>
-            </div>
             <div class="row gtr-uniform gtr-50">
                 <div class="col-10 col-12-xsmall  col-8-medium">
                     <input type="text" id="bannerSearch" placeholder="무엇이든지 찾아보세요!" />
@@ -30,8 +20,8 @@
                     </div>
                 <?}else{?>
                     <div class="col-12 col-12-xsmall">
-                        <a href="profile.php" class="button icon fa-user small">마이페이지</a>
-                        <a href="data.php" class="button icon fa-list small">내 작품 목록</a>
+                        <a href="register.php" class="button icon fa-user small">동행 구하기</a>
+                        <a href="myList.php" class="button icon fa-list small">내 동행 목록</a>
                     </div>
                 <?}?>
             </div>

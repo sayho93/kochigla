@@ -39,6 +39,7 @@ if(!class_exists("Configs")) {
              * @changeable true
              */
             $this->CONFIG_MODE = CONDUCT_MODE_DEV;
+//            $this->CONFIG_MODE = CONDUCT_MODE_LIVE;
             $this->CONFIG = array(
                 CONDUCT_MODE_DEV => array(
                     /**
