@@ -2,7 +2,7 @@
 <?
 class EmailSender {
     protected $mailInfo = null;
-    protected $userName = "[풀어줘] 서비스 고객센터";
+    protected $userName = "[Kochigla] 서비스 고객센터";
     protected $userEmail = "picklecode@gmail.com";
     protected $password = "fishcreek1!";
     protected $host = "smtp.gmail.com";

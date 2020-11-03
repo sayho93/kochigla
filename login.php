@@ -3,6 +3,7 @@
 <?
     $route = new UserAuthRoute();
     $API_PATH = $route->PF_API;
+    $URL = $route->PF_URL;
     if(AuthUtil::isLoggedIn()){
         echo "<script>alert('비정상적인 접근입니다.'); location.href='index.php';</script>";
 
@@ -39,7 +40,7 @@
 
             var naverLogin = new naver.LoginWithNaverId({
                     clientId: "geLGWRn0PuvRYhy3Pm0X",
-                    callbackUrl: "http://localhost/mygift/login.php",
+                    callbackUrl: "<?=$URL?>/login.php",
                     isPopup: false,
                     loginButton: {color: "green", type: 3, height: 45},
                     callbackHandle: true
