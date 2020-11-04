@@ -44,6 +44,10 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
 
                 // 2. POI 통합 검색 API 요청
                 $("#btn_select").click(function(){
+                    doSearch();
+                });
+
+                function doSearch(){
                     var searchKeyword = $('#searchKeyword').val();
                     $.ajax({
                         method:"GET",
@@ -72,6 +76,7 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
                                 var noorLat = Number(resultpoisData[k].noorLat);
                                 var noorLon = Number(resultpoisData[k].noorLon);
                                 var name = resultpoisData[k].name;
+                                console.log(k);
 
                                 var pointCng = new Tmapv2.Point(noorLon, noorLat);
                                 var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
@@ -90,7 +95,7 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
                                     map:map
                                 });
 
-                                innerHtml += "<li class='jRes' lat='" + lat + "' lng='" + lon + "' name='" + name + "'><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_" + k + ".png' style='vertical-align:middle;'/><span>"+name+"</span></li>";
+                                innerHtml += "<li class='jRes' lat='" + lat + "' lng='" + lon + "' name='" + name + "' idx='" + k + "'><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_" + k + ".png' style='vertical-align:middle;'/><span>"+name+"</span></li>";
 
                                 markerArr.push(marker);
                                 positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
@@ -105,15 +110,44 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
                             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                         }
                     });
+                }
+
+                $(document).on("click", ".jRes", function(){
+                    var lat = $(this).attr("lat");
+                    var lon = $(this).attr("lng");
+                    var name = $(this).attr("name");
+                    var idx = $(this).attr("idx");
+
+                    if(markerArr.length > 0){
+                        for(var i in markerArr) markerArr[i].setMap(null);
+                    }
+
+                    var positionBounds = new Tmapv2.LatLngBounds();
+                    var markerPosition = new Tmapv2.LatLng(lat, lon);
+
+                    marker = new Tmapv2.Marker({
+                        position : markerPosition,
+                        //icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_a.png",
+                        icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_" + idx + ".png",
+                        iconSize : new Tmapv2.Size(24, 38),
+                        title : name,
+                        map:map
+                    });
+
+                    markerArr.push(marker);
+                    positionBounds.extend(markerPosition);
+                    map.panToBounds(positionBounds);
+                    map.zoomOut();
+                    map.setZoom(16);
+                });
+
+                $("#searchKeyword").keydown(function(key) {
+                    if(key.keyCode === 13) doSearch();
                 });
             }
 
             initTmap();
 
-            $(document).on("click", ".jRes", function(){
-                swal("info", $(this).attr("name") + "\n" +$(this).attr("lat") + ":::" + $(this).attr("lng"), "success");
-
-            })
         });
     </script>
 
@@ -129,7 +163,7 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
                     <div class="row gtr-uniform gtr-50">
                         <div class="col-12 col-12-xsmall">
                             <label>위치</label>
-                            <input class="" type="email" id="searchKeyword" value="" placeholder="명칭/전화번호" />
+                            <input class="" type="text" id="searchKeyword" value="" placeholder="명칭/전화번호" />
                             <div class="align-center">
                                 <button type="button" class="browse button primary" id="btn_select" style="margin-top: 1.0rem">주소 찾기</button>
                             </div>
