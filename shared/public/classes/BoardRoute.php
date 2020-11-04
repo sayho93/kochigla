@@ -166,4 +166,8 @@ class BoardRoute extends FileRoute {
                 ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
         return $this->getArray($slt);
     }
+
+    function searchInfo(){
+        return self::getRow("SELECT * FROM tblSearch WHERE id = '{$_REQUEST["id"]}' LIMIT 1");
+    }
 }

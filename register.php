@@ -1,6 +1,5 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/header.php"; ?>
-<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/PayRoute.php"; ?>
-<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/StoreRoute.php"; ?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/BoardRoute.php"; ?>
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/UserAuthRoute.php"; ?>
 <?
 if(!AuthUtil::isLoggedIn()){
@@ -8,14 +7,17 @@ if(!AuthUtil::isLoggedIn()){
 }
 
 $uRoute = new UserAuthRoute();
-$pRoute = new PayRoute();
-$sRoute = new StoreRoute();
-$user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
+$bRoute = new BoardRoute();
 $API_PATH = $uRoute->PF_API;
+$user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
+
+$info = $bRoute->searchInfo();
+
 ?>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxdbde817571de4316a21c111fc7e3c35d"></script>
     <script>
         $(document).ready(function(){
+            var id = "<?=$_REQUEST["id"]?>";
             buttonLink(".jGoBalance", "balance.php");
             buttonLink(".jModifyStore", "profile_u.php");
             buttonLink(".jModifyMajor", "profile_m.php");
@@ -50,6 +52,7 @@ $API_PATH = $uRoute->PF_API;
 
                 function doSearch(){
                     var searchKeyword = $('#searchKeyword').val();
+
                     $.ajax({
                         method:"GET",
                         url:"https://apis.openapi.sk.com/tmap/pois?version=1&format=json&callback=result",
@@ -64,20 +67,16 @@ $API_PATH = $uRoute->PF_API;
                         success:function(response){
                             var resultpoisData = response.searchPoiInfo.pois.poi;
 
-                            // 기존 마커, 팝업 제거
                             if(markerArr.length > 0){
-                                for(var i in markerArr){
-                                    markerArr[i].setMap(null);
-                                }
+                                for(var i in markerArr) markerArr[i].setMap(null);
                             }
-                            var innerHtml ="";	// Search Reulsts 결과값 노출 위한 변수
-                            var positionBounds = new Tmapv2.LatLngBounds();		//맵에 결과물 확인 하기 위한 LatLngBounds객체 생성
+                            var innerHtml ="";
+                            var positionBounds = new Tmapv2.LatLngBounds();
 
                             for(var k in resultpoisData){
                                 var noorLat = Number(resultpoisData[k].noorLat);
                                 var noorLon = Number(resultpoisData[k].noorLon);
                                 var name = resultpoisData[k].name;
-                                console.log(k);
 
                                 var pointCng = new Tmapv2.Point(noorLon, noorLat);
                                 var projectionCng = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(pointCng);
@@ -96,14 +95,15 @@ $API_PATH = $uRoute->PF_API;
                                     map:map
                                 });
 
-                                innerHtml += "<li class='jRes' lat='" + lat + "' lng='" + lon + "' name='" + name + "' idx='" + k + "'><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_" + k + ".png' style='vertical-align:middle;'/><span>"+name+"</span></li>";
+                                innerHtml += "<li class='jRes' lat='" + lat + "' lng='" + lon + "' name='" + name + "' idx='" + k + "'><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_" + k +
+                                    ".png' style='vertical-align:middle;'/><span>"+name+"</span></li>";
 
                                 markerArr.push(marker);
-                                positionBounds.extend(markerPosition);	// LatLngBounds의 객체 확장
+                                positionBounds.extend(markerPosition);
                             }
 
-                            $("#searchResult").html(innerHtml);	//searchResult 결과값 노출
-                            map.panToBounds(positionBounds);	// 확장된 bounds의 중심으로 이동시키기
+                            $("#searchResult").html(innerHtml);
+                            map.panToBounds(positionBounds);
                             map.zoomOut();
                         },
                         error:function(request,status,error){
@@ -118,6 +118,18 @@ $API_PATH = $uRoute->PF_API;
                     var name = $(this).attr("name");
                     var idx = $(this).attr("idx");
 
+                    setMarker(lat, lon, name, idx);
+                    swal("info", "선택되었습니다.", "success");
+                });
+
+                if(id != null){
+                    var lat = $("[name=latitude]").val();
+                    var lng = $("[name=longitude]").val();
+                    var name = $("[name=rendezvousPoint]").val();
+                    setMarker(lat, lng, name, 0);
+                }
+
+                function setMarker(lat, lon, name, idx){
                     if(markerArr.length > 0){
                         for(var i in markerArr) markerArr[i].setMap(null);
                     }
@@ -142,8 +154,7 @@ $API_PATH = $uRoute->PF_API;
                     $("[name=rendezvousPoint]").val(name);
                     $("[name=latitude]").val(lat);
                     $("[name=longitude]").val(lon);
-                    swal("info", "선택되었습니다.", "success");
-                });
+                }
 
                 $("#searchKeyword").keydown(function(key) {
                     if(key.keyCode === 13) doSearch();
@@ -153,13 +164,7 @@ $API_PATH = $uRoute->PF_API;
             initTmap();
 
             $(".jSave").click(function(){
-                // var data = new FormData($("#searchForm")[0]);
-                // console.log(data);
-                // console.log(data.get("rendezvousPoint"));
-                // console.log(JSON.stringify(data));
-
                 var data = $("#searchForm").serialize();
-
                 callJsonBySerialize("<?="{$API_PATH}BoardRoute.upsertSearch"?>", data, function(data){
                         if(data.returnCode === 1){
                             swal("info", data.returnMessage, "success").then(() => {
@@ -183,9 +188,9 @@ $API_PATH = $uRoute->PF_API;
             <section id="content">
                 <form id="searchForm" method="post">
                     <input type="hidden" name="id" value="<?=$_REQUEST["id"]?>"/>
-                    <input type="hidden" name="rendezvousPoint" value=""/>
-                    <input type="hidden" name="latitude" value=""/>
-                    <input type="hidden" name="longitude" value=""/>
+                    <input type="hidden" name="rendezvousPoint" value="<?=$info["rendezvousPoint"]?>"/>
+                    <input type="hidden" name="latitude" value="<?=$info["latitude"]?>"/>
+                    <input type="hidden" name="longitude" value="<?=$info["longitude"]?>"/>
 
                     <div class="row gtr-uniform gtr-50">
                         <div class="col-12 col-12-xsmall">
@@ -205,29 +210,29 @@ $API_PATH = $uRoute->PF_API;
 
                         <div class="col-12 col-12-xsmall">
                             <label for="jTitle">제목</label>
-                            <input class=jTitle" type="text" name="title" value="" placeholder="제목"/>
+                            <input class=jTitle" type="text" name="title" value="<?=$info["title"]?>" placeholder="제목"/>
                         </div>
 
                         <div class="col-12 col-12-xsmall">
                             <label for="jContent">내용</label>
-                            <textarea class="jContent" type="text" name="content" rows="7" placeholder="여행 조건 등을 최대한 상세하게 적어주시기 바랍니다."></textarea>
+                            <textarea class="jContent" type="text" name="content" rows="7" placeholder="여행 조건 등을 최대한 상세하게 적어주시기 바랍니다."><?=$info["content"]?></textarea>
                         </div>
 
                         <div class="col-6 col-12-xsmall">
                             <label for="datetimepicker">시작일시</label>
-                            <input class="datetimepicker" type="text" name="startDate">
+                            <input class="datetimepicker" type="text" name="startDate" value="<?=$info["startDate"]?>">
                         </div>
                         <div class="col-6 col-12-xsmall">
                             <label for="datetimepicker">종료일시</label>
-                            <input class="datetimepicker" type="text" name="endDate">
+                            <input class="datetimepicker" type="text" name="endDate" value="<?=$info["endDate"]?>">
                         </div>
 
                         <div class="col-12 col-12-xsmall">
                             <label for="jSex">선호 성별</label>
                             <select class="jSex" name="sex">
-                                <option value="-1" <?=$user["sex"] == -1 ? "selected" : ""?>>무관</option>
-                                <option value="1" <?=$user["sex"] == 1 ? "selected" : ""?>>남자</option>
-                                <option value="0" <?=$user["sex"] == 0 ? "selected" : ""?>>여자</option>
+                                <option value="-1" <?=$info["sex"] == -1 ? "selected" : ""?>>무관</option>
+                                <option value="1" <?=$info["sex"] == 1 ? "selected" : ""?>>남자</option>
+                                <option value="0" <?=$info["sex"] == 0 ? "selected" : ""?>>여자</option>
                             </select>
                         </div>
 
@@ -235,7 +240,7 @@ $API_PATH = $uRoute->PF_API;
                             <label for="jCompanion">희망 동행 인원</label>
                             <select class="jCompanion" name="companion">
                                 <?for($i=1; $i<=20; $i++){?>
-                                    <option value="<?=$i?>"><?=$i?> 명</option>
+                                    <option value="<?=$i?>" <?=$info["companion"] == $i ? "selected" : ""?>><?=$i?> 명</option>
                                 <?}?>
                             </select>
                         </div>

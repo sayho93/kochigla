@@ -38,7 +38,7 @@ $newsList = $route->getTopNewsList();
                 <?}else{?>
                     <div class="col-12 col-12-xsmall">
                         <a href="profile.php" class="button icon fa-user small">마이페이지</a>
-                        <a href="data.php" class="button icon fa-list small">동행 찾아보기</a>
+                        <a href="search.php" class="button icon fa-list small">동행 찾아보기</a>
                     </div>
                 <?}?>
             </div>
