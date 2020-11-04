@@ -11,6 +11,7 @@ $uRoute = new UserAuthRoute();
 $pRoute = new PayRoute();
 $sRoute = new StoreRoute();
 $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
+$API_PATH = $uRoute->PF_API;
 ?>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxdbde817571de4316a21c111fc7e3c35d"></script>
     <script>
@@ -104,7 +105,6 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
                             $("#searchResult").html(innerHtml);	//searchResult 결과값 노출
                             map.panToBounds(positionBounds);	// 확장된 bounds의 중심으로 이동시키기
                             map.zoomOut();
-
                         },
                         error:function(request,status,error){
                             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -127,7 +127,6 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
 
                     marker = new Tmapv2.Marker({
                         position : markerPosition,
-                        //icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_a.png",
                         icon : "http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_" + idx + ".png",
                         iconSize : new Tmapv2.Size(24, 38),
                         title : name,
@@ -138,7 +137,12 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
                     positionBounds.extend(markerPosition);
                     map.panToBounds(positionBounds);
                     map.zoomOut();
-                    map.setZoom(16);
+                    map.setZoom(15);
+
+                    $("[name=rendezvousPoint]").val(name);
+                    $("[name=latitude]").val(lat);
+                    $("[name=longitude]").val(lon);
+                    swal("info", "선택되었습니다.", "success");
                 });
 
                 $("#searchKeyword").keydown(function(key) {
@@ -148,6 +152,25 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
 
             initTmap();
 
+            $(".jSave").click(function(){
+                // var data = new FormData($("#searchForm")[0]);
+                // console.log(data);
+                // console.log(data.get("rendezvousPoint"));
+                // console.log(JSON.stringify(data));
+
+                var data = $("#searchForm").serialize();
+
+                callJsonBySerialize("<?="{$API_PATH}BoardRoute.upsertSearch"?>", data, function(data){
+                        if(data.returnCode === 1){
+                            swal("info", data.returnMessage, "success").then(() => {
+                                location.href = "/mygift/search.php";
+                            });
+                        }
+                        else swal("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
+                    }
+                );
+
+            });
         });
     </script>
 
@@ -158,19 +181,22 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
             </header>
 
             <section id="content">
-                <form id="userForm" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="<?=$user["id"]?>"/>
+                <form id="searchForm" method="post">
+                    <input type="hidden" name="id" value="<?=$_REQUEST["id"]?>"/>
+                    <input type="hidden" name="rendezvousPoint" value=""/>
+                    <input type="hidden" name="latitude" value=""/>
+                    <input type="hidden" name="longitude" value=""/>
+
                     <div class="row gtr-uniform gtr-50">
                         <div class="col-12 col-12-xsmall">
-                            <label>위치</label>
-                            <input class="" type="text" id="searchKeyword" value="" placeholder="명칭/전화번호" />
+                            <label>만날 위치</label>
+                            <input class="" type="text" id="searchKeyword" value="" placeholder="주소/명칭/전화번호" />
                             <div class="align-center">
-                                <button type="button" class="browse button primary" id="btn_select" style="margin-top: 1.0rem">주소 찾기</button>
+                                <button type="button" class="browse button primary icon fa-search" id="btn_select" style="margin-top: 1.0rem">위치 찾기</button>
                             </div>
 
-                            <ul id="searchResult" name="searchResult">
-                                <li>검색결과</li>
-                            </ul>
+                            <label>검색결과</label>
+                            <ul id="searchResult"></ul>
                         </div>
 
                         <div class="col-12 col-12-xsmall">
@@ -184,7 +210,7 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
 
                         <div class="col-12 col-12-xsmall">
                             <label for="jContent">내용</label>
-                            <textarea class="jContent" type="text" name="content" rows="7"></textarea>
+                            <textarea class="jContent" type="text" name="content" rows="7" placeholder="여행 조건 등을 최대한 상세하게 적어주시기 바랍니다."></textarea>
                         </div>
 
                         <div class="col-6 col-12-xsmall">
@@ -198,10 +224,19 @@ $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
 
                         <div class="col-12 col-12-xsmall">
                             <label for="jSex">선호 성별</label>
-                            <select class="jSex">
+                            <select class="jSex" name="sex">
                                 <option value="-1" <?=$user["sex"] == -1 ? "selected" : ""?>>무관</option>
                                 <option value="1" <?=$user["sex"] == 1 ? "selected" : ""?>>남자</option>
                                 <option value="0" <?=$user["sex"] == 0 ? "selected" : ""?>>여자</option>
+                            </select>
+                        </div>
+
+                        <div class="col-3 col-12-xsmall">
+                            <label for="jCompanion">희망 동행 인원</label>
+                            <select class="jCompanion" name="companion">
+                                <?for($i=1; $i<=20; $i++){?>
+                                    <option value="<?=$i?>"><?=$i?> 명</option>
+                                <?}?>
                             </select>
                         </div>
 

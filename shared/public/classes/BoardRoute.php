@@ -124,26 +124,30 @@ class BoardRoute extends FileRoute {
     }
 
 
-    function registerSearch(){
+    function upsertSearch(){
         $id = $_REQUEST["id"] == null ? 0 : $_REQUEST["id"];
         $userId = AuthUtil::getLoggedInfo()->id;
-        $address  = $_REQUEST["address"];
+        $rendezvousPoint  = $_REQUEST["rendezvousPoint"];
+        $latitude = $_REQUEST["latitude"];
+        $longitude = $_REQUEST["longitude"];
         $startDate = $_REQUEST["startDate"];
         $endDate = $_REQUEST["endDate"];
         $sex = $_REQUEST["sex"];
         $title = $_REQUEST["title"];
         $content = $_REQUEST["content"];
+        $companion = $_REQUEST["companion"];
 
         self::update("
-            INSERT INTO tblSearch(`id`, `userId`, `address`, `startDate`, `endDate`, `sex`, `title`, `content`)
-            VALUES('{$id}', '{$userId}', '{$address}', '{$startDate}', '{$endDate}', '{$sex}', '{$title}', '{$content}')
+            INSERT INTO tblSearch(`id`, `userId`, rendezvousPoint, `latitude`, `longitude`, `startDate`, `endDate`, `sex`, `companion`, `title`, `content`)
+            VALUES('{$id}', '{$userId}', '{$rendezvousPoint}', '{$latitude}', '{$longitude}', '{$startDate}', '{$endDate}', '{$sex}', '{$companion}', '{$title}', '{$content}')
             ON DUPLICATE KEY UPDATE    
-                `address` = '{$address}',
+                rendezvousPoint = '{$rendezvousPoint}',
                 `startDate` = '{$startDate}',
                 `endDate` = '{$endDate}',
                 `sex` = '{$sex}',
                 `title` = '{$title}',
-                `content` = '{$content}'
+                `content` = '{$content}',
+                `companion` = '{$companion}'
         ");
         return self::response(1, "저장되었습니다.");
     }

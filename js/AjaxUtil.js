@@ -17,6 +17,25 @@ function callJson(url, sendData, callback){
     });
 }
 
+function callJsonBySerialize(url, sendData, callback){
+    $.ajax({
+        url : url,
+        enctype: "application/x-www-form-urlencoded; charset=UTF-8",
+        cache : false,
+        async : true,
+        method : "post",
+        dataType : "json",
+        data : sendData,
+        success : function(data){
+            console.log("[AJAX RESPONSE] " + data);
+            callback(JSON.parse(data));
+        },
+        error : function(req, stat, err){
+            console.log("[AJAX ERROR] REQUEST : " + req + " / STATUS : " + stat + " / ERROR : " + err);
+        }
+    });
+}
+
 function clickAction(selector, func){
     $(selector).click(function(e){
         e.preventDefault();
