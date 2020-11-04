@@ -1,10 +1,41 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/header.php"; ?>
     <script>
         $(document).ready(function(){
+            var currentPage = 1;
+            var isFinal = false;
 
+            function loadMore(page){
+                loadPageInto(
+                    "/mygift/ajaxPages/ajaxSearchList.php",
+                    {
+                        page : page,
+                        query : "<?=$_REQUEST["query"]?>",
+                        type: 1
+                    },
+                    ".jContainer",
+                    true,
+                    function(){
+                        isFinal = true;
+                        currentPage--;
+                        $(".jLoadMore").hide();
+                    }
+                );
+            }
+
+            loadMore(currentPage);
+
+            $(".jLoadMore").click(function(e){
+                e.preventDefault();
+                loadMore(++currentPage);
+            });
+
+            $(document).on("click", ".jDetail", function(){
+                var id = $(this).attr("noticeID");
+                location.href = "noticeDetail.php?id=" + id;
+            });
         });
     </script>
-    <!-- Main -->
+
     <section id="one" class="wrapper style2" style="">
         <div class="content">
             <div class="row gtr-uniform gtr-50">
@@ -28,26 +59,16 @@
         </div>
     </section>
 
-    <!-- Content -->
-    <section id="content" class="wrapper">
-        <form method="post" action="#">
-            <div class="row gtr-uniform gtr-50">
-                <div class="col-12 col-12-xsmall">
-                    <input class="jEmailTxt" type="email" name="email" id="email" value="" placeholder="이메일" />
-                </div>
-                <div class="col-12 col-12-xsmall">
-                    <input class="jPasswordTxt" type="password" name="password" id="password" value="" placeholder="패스워드" />
-                </div>
-                <div class="col-12 align-center">
-                    <a href="#" class="jLogin button primary icon fa-sign-in small">이메일로 로그인</a>
-                    <a href="join.php" class="button icon fa-edit small">회원가입</a>
-                </div>
-                <div class="col-12 col-12-xsmall align-center">
-                    <a href="#" class="facebook button icon small fa-facebook">Facebook으로 로그인</a>
-                </div>
+    <section id="two" class="wrapper">
+        <section id="content">
+            <div class="col-12 jContainer">
+
             </div>
-        </form>
+            <div class="col-12 align-center">
+                <a href="#" class="jLoadMore button icon fa-spinner small">더보기</a>
+            </div>
+        </section>
     </section>
 
-    <!-- Footer -->
+
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/footer.php"; ?>

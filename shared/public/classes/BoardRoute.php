@@ -151,4 +151,19 @@ class BoardRoute extends FileRoute {
         ");
         return self::response(1, "저장되었습니다.");
     }
+
+    function searchList(){
+        $page = $_REQUEST["page"] == "" ? 1 : $_REQUEST["page"];
+        $query = $_REQUEST["query"];
+        $whereStmt = "1=1 ";
+        if($query != ""){
+            $whereStmt .= " AND `title` LIKE '%{$query}%'";
+        }
+
+        $startLimit = ($page - 1) * 5;
+        $slt = "SELECT * 
+                FROM tblSearch WHERE {$whereStmt}
+                ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
+        return $this->getArray($slt);
+    }
 }
