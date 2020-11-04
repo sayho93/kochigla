@@ -130,7 +130,7 @@ class UserAuthRoute extends FileRoute {
         $thumb = $_FILES["img"];
         if($thumb["tmp_name"][0] != ""){
             $tmp = self::procFiles($thumb, $id);
-            $thumbId = $tmp[$thumb["name"][0]["id"]];
+            $thumbId = $tmp[$thumb["name"][0]]["id"];
         }
 
         $ins = "
