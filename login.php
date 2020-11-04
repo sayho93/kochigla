@@ -99,7 +99,6 @@
                         name: name,
                         sex: gender,
                         from: "NA",
-                        age: age,
                         "accessToken": accessToken.accessToken,
                     }, function(data){
                         if(data.returnCode > 1){}
