@@ -156,14 +156,15 @@ class BoardRoute extends FileRoute {
         $page = $_REQUEST["page"] == "" ? 1 : $_REQUEST["page"];
         $query = $_REQUEST["query"];
         $whereStmt = "1=1 ";
-        if($query != ""){
-            $whereStmt .= " AND `title` LIKE '%{$query}%'";
-        }
+        $userId = AuthUtil::getLoggedInfo()->id;
+        if($_REQUEST["user"] == true) $whereStmt .= " AND userId = '{$userId}'";
+        if($query != "") $whereStmt .= " AND (`title` LIKE '%{$query}%' OR rendezvousPoint LIKE '%{$query}%')";
 
         $startLimit = ($page - 1) * 5;
         $slt = "SELECT * 
                 FROM tblSearch WHERE {$whereStmt}
                 ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
+
         return $this->getArray($slt);
     }
 

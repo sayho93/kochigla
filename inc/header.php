@@ -9,6 +9,7 @@
     $payRoute = new PayRoute();
     $storeRoute = new StoreRoute();
 
+    $API_URL = $route->PF_API;
     $categoryList = $storeRoute->getCategoryList();
 
     $email = $route->getProperty("WEB_EMAIL");
@@ -44,7 +45,7 @@
     <!-- Header -->
     <header id="header">
 <!--        <h1 id="logo"><a href="index.php" class=""><img src="images/main_light.png" height="45px" alt="" /></a></h1>-->
-        <h1 id="logo"><a href="index.php" class=""><img src="images/kochigla_logo.png" height="60px" alt="" /></a></h1>
+        <h1 id="logo"><a href="index.php" class=""><img src="images/kochigla_logo.png" height="55px" alt="" /></a></h1>
         <nav id="nav">
             <ul>
                 <li><a href="index.php">홈</a></li>
@@ -134,12 +135,12 @@
         var pond = null;
 
         $(document).ready(function(){
+
             $(".jLogoutNav").click(function(){
                 callJson(
-                    "/mygift/shared/public/route.php?F=UserAuthRoute.requestLogout",
+                    "<?="{$API_URL}UserAuthRoute.requestLogout"?>",
                     null, function(data){
                         if(data.returnCode == 1){
-//                            alert(data.returnMessage);
                             location.href = "index.php";
                         }else{
                             alert("오류가 발생하였습니다.\n관리자에게 문의하세요.");

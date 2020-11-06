@@ -31,8 +31,10 @@
 
             $(document).on("click", ".jDetail", function(){
                 var id = $(this).attr("noticeID");
-                location.href = "noticeDetail.php?id=" + id;
+                location.href = "searchDetail.php?id=" + id;
             });
+
+            $("")
         });
     </script>
 
@@ -43,7 +45,7 @@
                     <input type="text" id="bannerSearch" placeholder="무엇이든지 찾아보세요!" />
                 </div>
                 <div class="col-2 col-12-xsmall col-4-medium">
-                    <a href="#" class="fit primary button icon fa-search">찾기</a>
+                    <a href="#" class="fit primary button icon fa-search jSearch">찾기</a>
                 </div>
                 <?if(!AuthUtil::isLoggedIn()){?>
                     <div class="col-12 col-12-xsmall">
@@ -59,16 +61,18 @@
         </div>
     </section>
 
-    <section id="two" class="wrapper">
-        <section id="content">
-            <div class="col-12 jContainer">
+    <div id="main" class="wrapper style1">
+        <div class="container">
+            <section id="content">
+                <div class="col-12 jContainer">
 
-            </div>
-            <div class="col-12 align-center">
-                <a href="#" class="jLoadMore button icon fa-spinner small">더보기</a>
-            </div>
-        </section>
-    </section>
+                </div>
+                <div class="col-12 align-center">
+                    <a href="#" class="jLoadMore button icon fa-spinner small">더보기</a>
+                </div>
+            </section>
+        </div>
+    </div>
 
 
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/footer.php"; ?>

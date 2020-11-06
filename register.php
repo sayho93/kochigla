@@ -122,7 +122,7 @@ $info = $bRoute->searchInfo();
                     swal("info", "선택되었습니다.", "success");
                 });
 
-                if(id != null){
+                if(id != null && id != ""){
                     var lat = $("[name=latitude]").val();
                     var lng = $("[name=longitude]").val();
                     var name = $("[name=rendezvousPoint]").val();
