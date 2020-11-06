@@ -67,16 +67,34 @@
                 <li><a href="notice.php">공지사항</a></li>
                 <?
                 if(AuthUtil::isLoggedIn()){
-                $displayName =
-                    AuthUtil::getLoggedInfo()->name;
+                    $displayName = AuthUtil::getLoggedInfo()->name;
                 ?>
                 <li>
                     <a href="#"><i class="icon fa-user"></i> <?=$displayName?>님</a>
                     <ul>
                         <li><a href="balance.php" class="icon fa-database"> 내 포인트 : <?=$balance?>P</a></li>
                         <li><a href="profile.php" class="">마이페이지</a></li>
-                        <li><a href="data.php" class="">내 작품 목록</a></li>
-                        <li><a href="store.php?id=<?=AuthUtil::getLoggedInfo()->id?>" class="">내 상점</a></li>
+                        <li>
+                            <a href="data.php" class="">
+                                내가 받은 동행신청 -
+                                <i class="fa-stack fa-xs" style="font-size: 0.8rem">
+                                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                                    <strong class="fa-stack-1x">12</strong>
+                                </i>
+
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="data.php" class="">
+                                내가 보낸 동행신청 -
+                                <i class="fa-stack fa-xs" style="font-size: 0.8rem">
+                                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                                    <strong class="fa-stack-1x">8</strong>
+                                </i>
+                            </a>
+
+                        </li>
                         <li><a href="logout.php" class="jLogoutNav">로그아웃</a></li>
                     </ul>
                 </li>

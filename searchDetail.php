@@ -3,7 +3,7 @@
 <?
     $route->updateNoticeHit();
     //    $item = $route->getNotice();
-
+    $API_URL = $route->PF_API;
     $bRoute = new BoardRoute();
     $item = $bRoute->searchInfo();
 
@@ -149,8 +149,19 @@
         initTmap();
 
         $(".jApply").click(function(){
-            $().attr("disabled", true);
-            swal("info", "성공적으로 지원되었습니다!", "success");
+            $(this).attr("disabled", true);
+            callJson("<?="{$API_URL}"?>BoardRoute.applyMatch", {
+                    id: id
+                }, function(data){
+                    if(data.returnCode === 1){
+                        swal("info", data.returnMessage, "success").then(() => {
+                           history.back();
+                        });
+                    }
+                    else swal("info", data.returnMessage, "error");
+                }
+            )
+            $(this).attr("disabled", false);
         });
     });
 </script>

@@ -13,6 +13,10 @@ $list = $router->searchList();
                 <i class="fa fa-dot-circle"></i>&nbsp;<?=$item["title"]?></h5>
         </div>
         <hr style="margin:0;" />
+        <div class="align-left">
+            <p><?="[{$item["rendezvousPoint"]}]"?></p>
+            <b><?=$item["content"]?></b>
+        </div>
         <div class="align-right">
             <i class="fa fa-list"></i>&nbsp;<span><?=$item["id"]?></span>&nbsp;
             <i class="fa fa-calendar"></i>&nbsp;<span><?=$item["regDate"]?></span>&nbsp;

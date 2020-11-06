@@ -40,6 +40,7 @@
 
             $("#bannerSearch").keydown(function(key) {
                 if(key.keyCode == 13) doSearch();
+
             });
 
             function doSearch(){

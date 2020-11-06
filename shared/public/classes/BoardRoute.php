@@ -171,4 +171,23 @@ class BoardRoute extends FileRoute {
     function searchInfo(){
         return self::getRow("SELECT * FROM tblSearch WHERE id = '{$_REQUEST["id"]}' LIMIT 1");
     }
+
+    function applyMatch(){
+        $id = $_REQUEST["id"];
+        $userId = AuthUtil::getLoggedInfo()->id;
+        $check = self::getRow("SELECT * FROM tblMatch WHERE userId = '{$userId}' AND searchId = '{$id}'");
+        if($check != "") return self::response("-1", "이미 지원한 게시물입니다.");
+        self::update("INSERT INTO tblMatch(userId, searchId) VALUES('{$userId}', '{$id}')");
+        return self::response(1, "성공적으로 지원되었습니다.");
+    }
+
+    function updateMatchStat(){
+        $searchId = $_REQUEST["searchId"];
+        $userId = $_REQUEST["userId"];
+        $status = $_REQUEST["status"];
+        self::update("UPDATE tblMatch SET `status` = '{$status}' WHERE userId = '{$userId}' AND searchId = '{$searchId}'");
+        return self::response(1, "저장되었습니다");
+    }
+
+
 }
