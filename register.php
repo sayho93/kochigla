@@ -195,7 +195,7 @@ $info = $bRoute->searchInfo();
                     <div class="row gtr-uniform gtr-50">
                         <div class="col-12 col-12-xsmall">
                             <label>만날 위치</label>
-                            <input class="" type="text" id="searchKeyword" value="" placeholder="주소/명칭/전화번호" />
+                            <input class="" type="text" id="searchKeyword" value="<?=$info["rendezvousPoint"]?>" placeholder="주소/명칭/전화번호" />
                             <div class="align-center">
                                 <button type="button" class="browse button primary icon fa-search" id="btn_select" style="margin-top: 1.0rem">위치 찾기</button>
                             </div>

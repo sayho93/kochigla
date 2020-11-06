@@ -34,7 +34,17 @@
                 location.href = "searchDetail.php?id=" + id;
             });
 
-            $("")
+            $(".jSearch").click(function(){
+                doSearch();
+            });
+
+            $("#bannerSearch").keydown(function(key) {
+                if(key.keyCode == 13) doSearch();
+            });
+
+            function doSearch(){
+                location.href = "/mygift/search.php?query=" + $("#bannerSearch").val();
+            }
         });
     </script>
 
@@ -42,7 +52,7 @@
         <div class="content">
             <div class="row gtr-uniform gtr-50">
                 <div class="col-10 col-12-xsmall  col-8-medium">
-                    <input type="text" id="bannerSearch" placeholder="무엇이든지 찾아보세요!" />
+                    <input type="text" id="bannerSearch" placeholder="무엇이든지 찾아보세요!" value="<?=$_REQUEST["query"]?>"/>
                 </div>
                 <div class="col-2 col-12-xsmall col-4-medium">
                     <a href="#" class="fit primary button icon fa-search jSearch">찾기</a>
