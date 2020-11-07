@@ -119,7 +119,7 @@ $info = $bRoute->searchInfo();
                     var idx = $(this).attr("idx");
 
                     setMarker(lat, lon, name, idx);
-                    swal("info", "선택되었습니다.", "success");
+                    Swal.fire("info", "선택되었습니다.", "success");
                 });
 
                 if(id != null && id != ""){
@@ -167,11 +167,11 @@ $info = $bRoute->searchInfo();
                 var data = $("#searchForm").serialize();
                 callJsonBySerialize("<?="{$API_PATH}BoardRoute.upsertSearch"?>", data, function(data){
                         if(data.returnCode === 1){
-                            swal("info", data.returnMessage, "success").then(() => {
+                            Swal.fire("info", data.returnMessage, "success").then(() => {
                                 location.href = "/mygift/search.php";
                             });
                         }
-                        else swal("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
+                        else Swal.fire("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
                     }
                 );
 

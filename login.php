@@ -22,7 +22,7 @@
 
             function doLogin(){
                 if($(".jEmailTxt").val() == "" || $(".jPasswordTxt").val() == ""){
-                    swal ( "알림" ,  "회원 정보를 입력하세요.", "error" );
+                    Swal.fire("알림" ,  "회원 정보를 입력하세요.", "error");
                     return;
                 }
                 callJson("<?=$API_PATH?>UserAuthRoute.requestLogin", {
@@ -30,10 +30,10 @@
                         pwd : $(".jPasswordTxt").val()
                     }, function(data){
                         if(data.returnCode > 0){
-                            if(data.returnCode > 1) swal ( "알림" ,  data.returnMessage, "info" );
+                            if(data.returnCode > 1) Swal.fire( "알림" ,  data.returnMessage, "info" );
                             else location.href = "index.php";
                         }
-                        else swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                        else Swal.fire( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
                     }
                 )
             }
@@ -55,7 +55,7 @@
                         var oAuthId = naverLogin.user.getId();
                         var accessToken = naverLogin.accessToken;
                         if( name == undefined || name == null){
-                            swal("info", "이름은 필수정보입니다. 정보제공을 동의해주세요.", "error").then(() => {
+                            Swal.fire("info", "이름은 필수정보입니다. 정보제공을 동의해주세요.", "error").then(() => {
                                 naverLogin.reprompt();
                             })
                             return;
@@ -65,7 +65,7 @@
                                 oAuthId : oAuthId,
                             }, function(data){
                                 if(data.returnCode === 1){
-                                    swal({
+                                    Swal.fire({
                                         title: "알림",
                                         text: "가입되지 않은 계정입니다. 가입을 진행하시겠습니까?",
                                         icon: "info",
@@ -103,7 +103,7 @@
                     }, function(data){
                         if(data.returnCode > 1){}
                         else{
-                            swal({
+                            Swal.fire({
                                 title: "알림",
                                 text: data.returnMessage,
                                 icon: "success",
@@ -122,7 +122,7 @@
                         accessToken: accessToken.accessToken
                     }, function(data){
                         if(data.returnCode === 1) location.href = "/mygift";
-                        else swal("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
+                        else Swal.fire("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
                     }
                 )
             }

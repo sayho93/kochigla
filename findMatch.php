@@ -70,7 +70,7 @@ $greeting = $greetingArr[mt_rand(0, sizeof($greetingArr) - 1)];
                         if(retData.returnCode > 0){
                             if(retData.returnCode > 1){
                             }else{
-                                swal({
+                                Swal.fire({
                                     title: "알림",
                                     text: retData.returnMessage,
                                     icon: "success",
@@ -80,7 +80,7 @@ $greeting = $greetingArr[mt_rand(0, sizeof($greetingArr) - 1)];
                                 });
                             }
                         }else{
-                            swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                            Swal.fire( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
                         }
                     },
                     error : function(req, stat, err){

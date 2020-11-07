@@ -25,17 +25,17 @@
                 }
 
                 if(!jPrC){
-                    swal ( "알림" ,  "개인정보처리방침에 동의하시기 바랍니다.", "error" );
+                    Swal.fire ( "알림" ,  "개인정보처리방침에 동의하시기 바랍니다.", "error" );
                     return;
                 }
 
                 if(!jAgC){
-                    swal ( "알림" ,  "서비스 이용 약관에 동의하시기 바랍니다.", "error" );
+                    Swal.fire ( "알림" ,  "서비스 이용 약관에 동의하시기 바랍니다.", "error" );
                     return;
                 }
 
                 if(rec == ""){
-                    swal ( "알림" ,  "reCAPTCHA 인증을 완료하시기 바랍니다.", "error" );
+                    Swal.fire ( "알림" ,  "reCAPTCHA 인증을 완료하시기 바랍니다.", "error" );
                     return;
                 }
 
@@ -61,7 +61,7 @@
                         if(retData.returnCode > 0){
                             if(retData.returnCode > 1){
                             }else{
-                                swal({
+                                Swal.fire({
                                     title: "알림",
                                     text: retData.returnMessage,
                                     icon: "success",
@@ -71,38 +71,13 @@
                                 });
                             }
                         }else{
-                            swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                            Swal.fire ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
                         }
                     },
                     error : function(req, stat, err){
                         console.log("[AJAX ERROR] REQUEST : " + req + " / STATUS : " + stat + " / ERROR : " + err);
                     }
                 });
-
-                // callJson(
-                //     "/mygift/shared/public/route.php?F=UserAuthRoute.joinUser",
-                //     {
-                //         email : $(".jEmailTxt").val(),
-                //         pwd : $(".jPasswordTxt").val(),
-                //         phone : $(".jPhoneTxt").val(),
-                //         name : $(".jNameTxt").val(),
-                //         age: $(".jAge").val(),
-                //         sex: $(".jSex option:selected").val(),
-                //         from : 'N',
-                //         recaptcha : rec
-                //     }
-                //     , function(data){
-                //         if(data.returnCode > 0){
-                //             alert(data.returnMessage);
-                //             if(data.returnCode > 1){
-                //             }else{
-                //                 location.href = "index.php";
-                //             }
-                //         }else{
-                //             swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
-                //         }
-                //     }
-                // )
             });
 
             $(document).on("click", ".browse", function(){

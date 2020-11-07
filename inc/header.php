@@ -75,7 +75,7 @@
                         <li><a href="balance.php" class="icon fa-database"> 내 포인트 : <?=$balance?>P</a></li>
                         <li><a href="profile.php" class="">마이페이지</a></li>
                         <li>
-                            <a href="data.php" class="">
+                            <a href="data.php?type=R" class="">
                                 내가 받은 동행신청 -
                                 <i class="fa-stack fa-xs" style="font-size: 0.8rem">
                                     <i class="fa fa-circle-o fa-stack-2x"></i>
@@ -86,7 +86,7 @@
 
                         </li>
                         <li>
-                            <a href="data.php" class="">
+                            <a href="data.php?type=A" class="">
                                 내가 보낸 동행신청 -
                                 <i class="fa-stack fa-xs" style="font-size: 0.8rem">
                                     <i class="fa fa-circle-o fa-stack-2x"></i>
@@ -111,7 +111,8 @@
     <script src="https://cdn.bootpay.co.kr/js/bootpay-2.0.20.min.js" type="application/javascript"></script>
 
     <script src="js/snackbar.min.js"></script>
-    <script src="js/sweetalert.min.js"></script>
+<!--    <script src="js/sweetalert.min.js"></script>-->
+    <script src="js/sweetalert2.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>

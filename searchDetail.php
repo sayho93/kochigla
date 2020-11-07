@@ -154,11 +154,11 @@
                     id: id
                 }, function(data){
                     if(data.returnCode === 1){
-                        swal("info", data.returnMessage, "success").then(() => {
+                        Swal.fire("info", data.returnMessage, "success").then(() => {
                            history.back();
                         });
                     }
-                    else swal("info", data.returnMessage, "error");
+                    else Swal.fire("info", data.returnMessage, "error");
                 }
             )
             $(this).attr("disabled", false);

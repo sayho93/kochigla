@@ -70,7 +70,7 @@
                         if(retData.returnCode > 0){
                             if(retData.returnCode > 1){
                             }else{
-                                swal({
+                                Swal.fire({
                                     title: "알림",
                                     text: retData.returnMessage,
                                     icon: "success",
@@ -80,13 +80,23 @@
                                 });
                             }
                         }else{
-                            swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                            Swal.fire("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
                         }
                     },
                     error : function(req, stat, err){
                         console.log("[AJAX ERROR] REQUEST : " + req + " / STATUS : " + stat + " / ERROR : " + err);
                     }
                 });
+            });
+
+            $(".jToggle").click(function(event){
+                event.preventDefault();
+                if($(this).hasClass("primary")){
+                    $(this).removeClass("primary");
+                }
+                else{
+                    $(this).addClass("primary");
+                }
             });
         });
     </script>
@@ -141,6 +151,13 @@
                                             </select>
                                         </div>
 
+                                        <div class="row">
+                                            <div class="col-12 col-12-xsmall align-center">
+                                                <?for($i=0; $i<=27; $i++){?>
+                                                    <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#활발함</a>
+                                                <?}?>
+                                            </div>
+                                        </div>
                                         <div class="col-12 align-center">
                                             <a href="#" class="jSave button icon fa-sign-in small">저장하기</a>
                                         </div>

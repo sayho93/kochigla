@@ -189,5 +189,31 @@ class BoardRoute extends FileRoute {
         return self::response(1, "저장되었습니다");
     }
 
+    function matchRequest(){
+        $type = $_REQUEST["type"];
+
+        $userId = AuthUtil::getLoggedInfo()->id;
+        $whereStmt = "1=1";
+        if($type == "R") $whereStmt .= " AND M.status = 0 AND S.userId = '{$userId}'";
+        else $whereStmt .= " AND M.userId = '{$userId}'";
+        $ins = "
+            SELECT *, M.userId as requestUserId
+            FROM tblMatch M 
+                JOIN tblUser U ON M.userId = U.id 
+                JOIN tblSearch S ON M.searchId = S.id
+            WHERE {$whereStmt}
+            ORDER BY M.regDate DESC;
+        ";
+        return self::getArray($ins);
+    }
+
+    function changeMatchStatus(){
+        $userId = $_REQUEST["userId"];
+        $searchId = $_REQUEST["searchId"];
+        $status = $_REQUEST["status"];
+        self::update("UPDATE tblMatch SET `status` = '{$status}' WHERE `userId` = '{$userId}' AND `searchId` = '{$searchId}'");
+        return self::response(1, "변경되었습니다.");
+    }
+
 
 }
