@@ -197,7 +197,7 @@ class BoardRoute extends FileRoute {
         if($type == "R") $whereStmt .= " AND M.status = 0 AND S.userId = '{$userId}'";
         else $whereStmt .= " AND M.userId = '{$userId}'";
         $ins = "
-            SELECT *, M.userId as requestUserId
+            SELECT *, M.userId as requestUserId, M.status as matchStatus
             FROM tblMatch M 
                 JOIN tblUser U ON M.userId = U.id 
                 JOIN tblSearch S ON M.searchId = S.id

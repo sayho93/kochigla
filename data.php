@@ -8,9 +8,8 @@
     $bRoute = new BoardRoute();
     $list = $bRoute->matchRequest();
 //    echo json_encode($list);
-
-
 ?>
+
     <script>
         $(document).ready(function(){
             $(".jApply").click(function(){
@@ -96,6 +95,7 @@
                                             <th style="white-space: nowrap;">장소</th>
                                             <th>기간</th>
                                             <th>지원일시</th>
+                                            <th style="white-space: nowrap;">상태</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -104,6 +104,21 @@
                                                 <td><?=$item["rendezvousPoint"]?></td>
                                                 <td><?="{$item["startDate"]} <br>~<br> {$item["endDate"]}"?></td>
                                                 <td><?=$item["regDate"]?></td>
+                                                <td style="white-space: nowrap;">
+                                                    <?
+                                                        switch($item["matchStatus"]){
+                                                            case -1:
+                                                                echo "거절";
+                                                                break;
+                                                            case 0:
+                                                                echo "대기";
+                                                                break;
+                                                            case 1:
+                                                                echo "수락";
+                                                                break;
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                         <?}?>
                                         </tbody>
