@@ -1,14 +1,12 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/header.php"; ?>
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/ChatRoute.php"; ?>
 <?
+    if(!AuthUtil::isLoggedIn()){
+        echo "<script>alert('비정상적인 접근입니다.'); location.href='index.php';</script>";
+    }
 
-if(!AuthUtil::isLoggedIn()){
-    echo "<script>alert('비정상적인 접근입니다.'); location.href='index.php';</script>";
-}
-
-$cRoute = new ChatRoute();
-$groupList = $cRoute->getMyAuthGroupList();
-
+    $cRoute = new ChatRoute();
+    $groupList = $cRoute->getMyAuthGroupList();
 ?>
 
     <script>

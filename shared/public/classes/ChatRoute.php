@@ -118,9 +118,7 @@ class ChatRoute extends Routable {
         $sql = "SELECT *,
                 (SELECT COUNT(*) FROM tblGroupBinder WHERE `groupId` = tblChatGroup.id) AS members
                 FROM tblChatGroup WHERE `id` IN (SELECT groupId FROM tblGroupBinder WHERE userId='{$userId}') ORDER BY groupName DESC";
-        $array = $this->getArray($sql);
-
-        return $array;
+        return $this->getArray($sql);
     }
 
     /**
@@ -230,6 +228,24 @@ class ChatRoute extends Routable {
 
         return $newGID;
     }
+
+    /**
+     * Creation of a group for ajax [Kochigla]
+     * Only For this Project
+     */
+    function createGroupAjaxK(){
+        $user = AuthUtil::getLoggedInfo();
+        $userId = $_REQUEST["userId"];
+        $info = self::getRow("SELECT * FROM tblUser WHERE id = '{$userId}' AND status=1 LIMIT 1");
+        $groupName = $user->name . ", " . $info["name"];
+        $userIds = Array();
+        array_push($userIds, $info["id"]);
+
+        $flag = $this->createGroup($groupName, $userIds);
+        if($flag > 0) return self::response(1, "처리되었습니다.");
+        else return self::response(-1, "비정상적인 요청입니다.");
+    }
+
 
     /**
      * On Creation of a group for ajax

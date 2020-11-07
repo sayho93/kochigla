@@ -175,6 +175,8 @@ class BoardRoute extends FileRoute {
     function applyMatch(){
         $id = $_REQUEST["id"];
         $userId = AuthUtil::getLoggedInfo()->id;
+        $searchUser = self::getValue("SELECT userId FROM tblSearch WHERE id = '{$id}'", "userId");
+        if($searchUser == $userId) return self::response(-2, "본인의 게시물에는 지원할 수 없습니다.");
         $check = self::getRow("SELECT * FROM tblMatch WHERE userId = '{$userId}' AND searchId = '{$id}'");
         if($check != "") return self::response("-1", "이미 지원한 게시물입니다.");
         self::update("INSERT INTO tblMatch(userId, searchId) VALUES('{$userId}', '{$id}')");

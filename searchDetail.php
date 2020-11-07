@@ -155,7 +155,17 @@
                 }, function(data){
                     if(data.returnCode === 1){
                         Swal.fire("info", data.returnMessage, "success").then(() => {
-                           history.back();
+
+
+
+                            callJson("<?="{$API_URL}"?>ChatRoute.createGroupAjaxK",{
+                                    userId: "<?=$item["userId"]?>"
+                                }, function(data){
+                                    if(data.returnCode === 1) history.back();
+                                    else Swal.fire("info", "채팅방 생성중 오류가 발생했습니다.\n관리자에게 문의하세요", "error");
+                                }
+                            )
+
                         });
                     }
                     else Swal.fire("info", data.returnMessage, "error");
@@ -231,7 +241,7 @@
                 </div>
 
                 <div class="col-12 align-center">
-                    <button class="jApply button primary icon fa-sign-in small">지원하기</button>
+                    <button class="jApply button primary icon fa-sign-in small" >지원하기</button>
                     <a href="#" class="jBack button icon fa-list small">목록으로</a>
                 </div>
             </div>

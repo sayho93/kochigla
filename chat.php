@@ -109,7 +109,7 @@ if(!$cRoute->isMemberOf(AuthUtil::getLoggedInfo()->id, $groupId)){
         .received_withd_msg { width: 50%;}
 
         .sent_msg p {
-            background: #e44c65 none repeat scroll 0 0;
+            background: #1e88e5 none repeat scroll 0 0;
             border-radius: 3px;
             font-size: 14px;
             margin: 0; color:#fff;
@@ -138,7 +138,7 @@ if(!$cRoute->isMemberOf(AuthUtil::getLoggedInfo()->id, $groupId)){
 
         .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
         .msg_send_btn {
-            background: #e44c65 none repeat scroll 0 0;
+            background: #1e88e5 none repeat scroll 0 0;
             border: medium none;
             border-radius: 50%;
             color: #fff;
