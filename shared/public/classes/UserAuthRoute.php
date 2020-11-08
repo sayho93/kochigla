@@ -1,6 +1,7 @@
 <?php
 
 include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/Routable.php";
+include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/FileRoute.php";
 
 class UserAuthRoute extends FileRoute {
 

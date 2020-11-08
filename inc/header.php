@@ -180,6 +180,17 @@
                         content.style.maxHeight = content.scrollHeight + "px";
                 });
             }
+
+            // getLocation();
+
+            function getLocation(){
+                if (navigator.geolocation) navigator.geolocation.getCurrentPosition(showPosition);
+                else Swal.fire("info", "Geolocation is not supported by this browser.", error);
+            }
+
+            function showPosition(position){
+                Swal.fire("info", "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude, "success");
+            }
         });
         function showSnackBar(text){
             Snackbar.show({pos: 'bottom-left', duration:30000, text: text, actionText:'닫기', actionTextColor:'#e44c65'});

@@ -1,5 +1,5 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"] . "/mygift/shared/public/classes/AdminRoute.php"?>
-<? include_once  $_SERVER["DOCUMENT_ROOT"] . "/mygift/shared/public/classes/UserAuthRoute.php"?>
+<? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/UserAuthRoute.php"; ?>
 <?
     $route = new AdminRoute();
 
