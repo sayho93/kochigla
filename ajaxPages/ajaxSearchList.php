@@ -65,7 +65,9 @@ $target = mt_rand(1, 5);
         <div class="col-twelve text-right" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
             <div class="text-left">
                 <h5 style="margin-top: 12px; font-size: 15px; margin-bottom: 5px;">
-                    <i class="fa fa-dot-circle"></i>&nbsp; (광고) 충무로 광안리</h5>
+                    <i class="fa fa-dot-circle"></i>&nbsp; (광고) 애월연어
+                    <b style="float: right; font-size: 11px"><i class="fa fa-location-arrow"></i> 제주시 애월읍</b>
+                </h5>
             </div>
             <hr style="margin:0;" />
             <div class="align-left">
@@ -73,9 +75,9 @@ $target = mt_rand(1, 5);
                     <span class="image left">
                         <img src="images/ad.jpg" alt="" style=""/>
                     </span>
-                    충무로 방어, 연어, 육사시미 맛집: 광안리
+                    애월 방어, 연어, 육사시미 맛집: 애월연어
                 </p>
-                <p class="media" style="">서울 중구 충무로2길 32 제1호</p>
+                <p class="media" style=""> 제주시 애월읍 하소로660 1층</p>
                 <div class="align-right">
                     <img src="assets/css/images/ad.svg" class="svg" style="width: 2.0rem; color: white"/>
                 </div>

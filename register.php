@@ -227,7 +227,7 @@ $info = $bRoute->searchInfo();
                             <input class="datetimepicker" type="text" name="endDate" value="<?=$info["endDate"]?>">
                         </div>
 
-                        <div class="col-12 col-12-xsmall">
+                        <div class="col-3 col-12-xsmall">
                             <label for="jSex">선호 성별</label>
                             <select class="jSex" name="sex">
                                 <option value="-1" <?=$info["sex"] == -1 ? "selected" : ""?>>무관</option>
@@ -245,7 +245,16 @@ $info = $bRoute->searchInfo();
                             </select>
                         </div>
 
-                        <div class="col-12 align-center">
+                        <div class="col-3 col-12-xsmall">
+                            <label for="jOriginCompanion">사전 구성된 동행 인원</label>
+                            <select class="jOriginCompanion" name="originCompanion">
+                                <?for($i=1; $i<=20; $i++){?>
+                                    <option value="<?=$i?>" <?=$info["originCompanion"] == $i ? "selected" : ""?>><?=$i?> 명</option>
+                                <?}?>
+                            </select>
+                        </div>
+
+                        <div class="col-12 align-center" style="margin-top: 2.0rem">
                             <a href="#" class="jSave button icon fa-sign-in small">저장하기</a>
                         </div>
                     </div>

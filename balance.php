@@ -15,7 +15,7 @@ if(!AuthUtil::isLoggedIn()){
                 var userPhone = "<?=AuthUtil::getLoggedInfo()->phone?>";
 
                 if(price == ""){
-                    swal ( "알림" ,  "충전할 금액을 선택하세요.", "info" );
+                    Swal.fire( "Info" ,  "충전할 금액을 선택하세요.", "info" );
                     return;
                 }
                 var unique = $("#price option:selected").attr("pUniq");
@@ -32,7 +32,7 @@ if(!AuthUtil::isLoggedIn()){
                             var orderId = data.data;
                             requestPayment(orderId, unique, price, pName, uName, userEmail, userAddr, userPhone);
                         }else{
-                            swal ( "알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
+                            Swal.fire( "Info" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error" );
                         }
                     }
                 );

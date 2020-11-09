@@ -136,10 +136,11 @@ class BoardRoute extends FileRoute {
         $title = $_REQUEST["title"];
         $content = $_REQUEST["content"];
         $companion = $_REQUEST["companion"];
+        $originCompanion = $_REQUEST["originCompanion"];
 
         self::update("
-            INSERT INTO tblSearch(`id`, `userId`, rendezvousPoint, `latitude`, `longitude`, `startDate`, `endDate`, `sex`, `companion`, `title`, `content`)
-            VALUES('{$id}', '{$userId}', '{$rendezvousPoint}', '{$latitude}', '{$longitude}', '{$startDate}', '{$endDate}', '{$sex}', '{$companion}', '{$title}', '{$content}')
+            INSERT INTO tblSearch(`id`, `userId`, rendezvousPoint, `latitude`, `longitude`, `startDate`, `endDate`, `sex`, `originCompanion`, `companion`, `title`, `content`)
+            VALUES('{$id}', '{$userId}', '{$rendezvousPoint}', '{$latitude}', '{$longitude}', '{$startDate}', '{$endDate}', '{$sex}', '{$originCompanion}','{$companion}', '{$title}', '{$content}')
             ON DUPLICATE KEY UPDATE    
                 rendezvousPoint = '{$rendezvousPoint}',
                 `latitude` = '{$latitude}',
@@ -149,6 +150,7 @@ class BoardRoute extends FileRoute {
                 `sex` = '{$sex}',
                 `title` = '{$title}',
                 `content` = '{$content}',
+                `originCompanion` = '{$originCompanion}',
                 `companion` = '{$companion}'
         ");
         return self::response(1, "저장되었습니다.");

@@ -110,8 +110,8 @@ class WebRoute extends Routable {
         $message = $_REQUEST["message"];
         $recurId = $_REQUEST["recurId"] == "" ? 0 : $_REQUEST["recurId"];
 
-        $sql = "INSERT INTO tblNews(userId, univId, `message`, recurId, regDate) 
-                VALUES('{$userId}', '{$univId}', '{$message}', '{$recurId}', NOW())";
+        $sql = "INSERT INTO tblNews(userId, `message`, regDate) 
+                VALUES('{$userId}', '{$message}', NOW())";
 
         $this->update($sql);
         return self::response(1, "등록되었습니다.");

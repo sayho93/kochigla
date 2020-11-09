@@ -30,7 +30,7 @@
     <meta name="msapplication-TileColor" content="#272833">
     <meta name="msapplication-navbutton-color" content="#272833">
     <meta name="apple-mobile-web-app-status-bar-style" content="#272833">
-    <meta name="og:title" content="풀어줘 - Solve me!">
+    <meta name="og:title" content="Kochigla - 동행!">
     <meta name="og:description" content="여행 속 동행을 구해보세요">
     <meta name="og:image" content="http://picklecode.co.kr/mygift.png">
     <meta name="description" content="당신이 빛나던 순간을 함께할 나만의 여행 동행을 구해 보세요">
@@ -108,7 +108,8 @@
     <link rel="stylesheet" type="text/css" href="js/snackbar.min.css" />
 
     <!-- BootPay -->
-    <script src="https://cdn.bootpay.co.kr/js/bootpay-2.0.20.min.js" type="application/javascript"></script>
+<!--    <script src="https://cdn.bootpay.co.kr/js/bootpay-2.0.20.min.js" type="application/javascript"></script>-->
+    <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js" type="application/javascript"></script>
 
     <script src="js/snackbar.min.js"></script>
 <!--    <script src="js/sweetalert.min.js"></script>-->

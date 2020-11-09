@@ -230,7 +230,12 @@
                 </div>
 
                 <div class="col-6 col-6-xsmall">
-                    <label>동행 수</label>
+                    <label>사전 구성 인원</label>
+                    <p><?="{$item["originCompanion"]} 명"?></p>
+                </div>
+
+                <div class="col-6 col-6-xsmall">
+                    <label>필요한 동행 수</label>
                     <p><?="{$item["companion"]} 명"?></p>
                 </div>
 
