@@ -65,7 +65,7 @@
                 <?}else{?>
                     <div class="col-12 col-12-xsmall">
                         <a href="register.php" class="button icon fa-user small">동행 구하기</a>
-                        <a href="myList.php" class="button icon fa-list small">내 동행 목록</a>
+                        <a href="myList.php" class="button icon fa-list small">내가 구인중인 동행 목록</a>
                     </div>
                 <?}?>
             </div>

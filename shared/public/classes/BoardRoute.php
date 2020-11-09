@@ -142,6 +142,8 @@ class BoardRoute extends FileRoute {
             VALUES('{$id}', '{$userId}', '{$rendezvousPoint}', '{$latitude}', '{$longitude}', '{$startDate}', '{$endDate}', '{$sex}', '{$companion}', '{$title}', '{$content}')
             ON DUPLICATE KEY UPDATE    
                 rendezvousPoint = '{$rendezvousPoint}',
+                `latitude` = '{$latitude}',
+                `longitude` = '{$longitude}',
                 `startDate` = '{$startDate}',
                 `endDate` = '{$endDate}',
                 `sex` = '{$sex}',
