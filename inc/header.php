@@ -20,6 +20,8 @@
     if(AuthUtil::isLoggedIn()){
         $balance = $payRoute->getPoint(AuthUtil::getLoggedInfo()->id);
     }
+
+    $dashboardInfo = $route->dashboardInfo();
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -79,7 +81,7 @@
                                 내가 받은 동행신청 -
                                 <i class="fa-stack fa-xs" style="font-size: 0.8rem">
                                     <i class="fa fa-circle-o fa-stack-2x"></i>
-                                    <strong class="fa-stack-1x">12</strong>
+                                    <strong class="fa-stack-1x"><?=$dashboardInfo["receivedRequest"]?></strong>
                                 </i>
 
                             </a>
@@ -90,7 +92,7 @@
                                 내가 보낸 동행신청 -
                                 <i class="fa-stack fa-xs" style="font-size: 0.8rem">
                                     <i class="fa fa-circle-o fa-stack-2x"></i>
-                                    <strong class="fa-stack-1x">8</strong>
+                                    <strong class="fa-stack-1x"><?=$dashboardInfo["sentRequest"]?></strong>
                                 </i>
                             </a>
 

@@ -3,6 +3,17 @@
 include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/Routable.php";
 
 class WebRoute extends Routable {
+    function dashboardInfo(){
+        $user = AuthUtil::getLoggedInfo()->id;
+        $ins = "
+            SELECT
+                (SELECT COUNT(*) FROM tblMatch WHERE userId = '{$user}') AS sentRequest,
+                (SELECT COUNT(*) FROM tblMatch M JOIN tblSearch S ON M.searchId = S.id WHERE S.userId = '{$user}') AS receivedRequest
+            FROM dual
+        ";
+        return self::getRow($ins);
+    }
+
 
     function getFaqList(){
         return $this->getArray("SELECT * FROM tblFaq ORDER BY `title` ASC");
