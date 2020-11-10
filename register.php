@@ -148,8 +148,9 @@ $info = $bRoute->searchInfo();
                     markerArr.push(marker);
                     positionBounds.extend(markerPosition);
                     map.panToBounds(positionBounds);
-                    map.zoomOut();
                     map.setZoom(15);
+                    // map.zoomOut();
+
 
                     $("[name=rendezvousPoint]").val(name);
                     $("[name=latitude]").val(lat);

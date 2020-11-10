@@ -159,7 +159,7 @@ class BoardRoute extends FileRoute {
     function searchList(){
         $page = $_REQUEST["page"] == "" ? 1 : $_REQUEST["page"];
         $query = $_REQUEST["query"];
-        $whereStmt = "1=1 ";
+        $whereStmt = "status = 1 ";
         $userId = AuthUtil::getLoggedInfo()->id;
         if($_REQUEST["user"] == true) $whereStmt .= " AND userId = '{$userId}'";
         if($query != "") $whereStmt .= " AND (`title` LIKE '%{$query}%' OR rendezvousPoint LIKE '%{$query}%')";
