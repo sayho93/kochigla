@@ -1,6 +1,9 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/header.php"; ?>
 <? include_once $_SERVER["DOCUMENT_ROOT"] . "/mygift/shared/public/classes/BoardRoute.php"?>
 <?
+    if(AuthUtil::getLoggedInfo() == ""){
+        echo "<script>Swal.fire('info', '로그인 후 이용바랍니다.', 'error').then(() => {location.href = '/mygift'})</script>";
+    }
     $route->updateNoticeHit();
     //    $item = $route->getNotice();
     $API_URL = $route->PF_API;
