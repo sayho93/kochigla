@@ -38,7 +38,7 @@
     <meta name="description" content="당신이 빛나던 순간을 함께할 나만의 여행 동행을 구해 보세요">
     <meta name="keywords" content="여행, 동행, 동료, 국내여행, 제주도여행">
     <meta name="author" content="PickleCode">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>

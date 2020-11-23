@@ -83,7 +83,7 @@ class UserAuthRoute extends FileRoute {
         $oAuthId = $_REQUEST["oAuthId"];
         $accessToken = $_REQUEST["accessToken"];
 
-        $val = $this->getRow("SELECT * FROM tblUser WHERE email='{$email}' AND email != 'Unknown' LIMIT 1");
+        $val = $this->getRow("SELECT * FROM tblUser WHERE email='{$email}' AND email != 'Unknown' AND `status` != 0 LIMIT 1");
         if($val != null && $from != "NA") return Routable::response(2, "이미 존재하는 이메일 계정입니다.");
 
         $ins = "INSERT INTO tblUser(`email`, `password`, `name`, `phone`, `age`, `sex`, `from`, `oAuthId`, `accessToken`, regDate)

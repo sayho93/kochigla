@@ -46,6 +46,11 @@
             function doSearch(){
                 location.href = "/mygift/search.php?query=" + $("#bannerSearch").val();
             }
+
+            $(document).on("click", ".jAd", () => {
+                window.open("https://www.youtube.com/watch?v=SvqWhMzSHgA");
+            })
+
         });
     </script>
 
