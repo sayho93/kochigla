@@ -165,7 +165,10 @@ class BoardRoute extends FileRoute {
         if($query != "") $whereStmt .= " AND (`title` LIKE '%{$query}%' OR rendezvousPoint LIKE '%{$query}%')";
 
         $startLimit = ($page - 1) * 5;
-        $slt = "SELECT * 
+        $slt = "SELECT 
+                    *,
+                    (select thumbId FROM tblUser WHERE id = userId) as thumbId,
+                    (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbPath
                 FROM tblSearch WHERE {$whereStmt}
                 ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
 

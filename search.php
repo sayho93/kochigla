@@ -35,7 +35,8 @@
             });
 
             $(".jSearch").click(function(){
-                doSearch();
+                if($(".jSearchTxt").is(":visible")) doSearch();
+                else $(".jSearchTxt").fadeIn()
             });
 
             $("#bannerSearch").keydown(function(key) {
@@ -57,8 +58,8 @@
     <section id="one" class="wrapper style2" style="">
         <div class="content">
             <div class="row gtr-uniform gtr-50">
-                <div class="col-10 col-12-xsmall  col-8-medium">
-                    <input type="text" id="bannerSearch" placeholder="무엇이든지 찾아보세요!" value="<?=$_REQUEST["query"]?>"/>
+                <div class="col-10 col-12-xsmall  col-8-medium jSearchTxt" style="display: <?=$_REQUEST["query"] != "" ? "" : "none"?>;">
+                    <input type="text" id="bannerSearch" placeholder="가고자 하는 곳을 입력해보세요!" value="<?=$_REQUEST["query"]?>"/>
                 </div>
                 <div class="col-2 col-12-xsmall col-4-medium">
                     <a href="#" class="fit primary button icon fa-search jSearch">찾기</a>

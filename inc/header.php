@@ -52,7 +52,7 @@
             <ul>
                 <li><a href="index.php">홈</a></li>
                 <li>
-                    <a href="search.php?type=A">동행검색</a>
+                    <a href="search.php?type=A">동행찾기</a>
 <!--                    <ul>-->
 <!--                        <li><a href="search.php">전체</a></li>-->
 <!--                        --><?//foreach($categoryList as $categoryItem){?>

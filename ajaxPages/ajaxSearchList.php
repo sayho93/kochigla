@@ -3,6 +3,7 @@
 $router = new BoardRoute();
 //    $list = $router->getNoticeList();
 $list = $router->searchList();
+//echo json_encode($list);
 $idx = 0;
 $target = mt_rand(1, 5);
 ?>
@@ -33,7 +34,7 @@ $target = mt_rand(1, 5);
 
         .media{
             margin-top: 0;
-            margin-bottom: 0 !important;
+            margin-bottom: 2.0rem !important;
         }
         @media screen and (min-width: 770px) {
             .media{
@@ -43,21 +44,25 @@ $target = mt_rand(1, 5);
         }
     </style>
 
-    <div noticeID="<?=$item["id"]?>" class="col-twelve jDetail text-right"
-         style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
+    <div noticeID="<?=$item["id"]?>" class="col-twelve jDetail text-right" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
         <div class="text-left">
             <h5 style="margin-top: 12px; font-size: 15px; margin-bottom: 5px;">
                 <i class="fa fa-dot-circle"></i>&nbsp;<?=$item["title"]?></h5>
         </div>
         <hr style="margin:0;" />
-        <div class="align-left">
-            <p><?="[{$item["rendezvousPoint"]}]"?></p>
-            <b><?=$item["content"]?></b>
+        <div class="align-left" style="margin-top:0; padding-top: 0;">
+            <p>
+                <span class="image left">
+                    <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" alt="" /><!--style="width: 10.65rem"-->
+                </span>
+                <?="[{$item["rendezvousPoint"]}]"?>
+            </p>
+            <p class="media"><?=$item["content"]?></p>
         </div>
         <div class="align-right">
             <i class="fa fa-list"></i>&nbsp;<span><?=$item["id"]?></span>&nbsp;
             <i class="fa fa-calendar"></i>&nbsp;<span><?=$item["regDate"]?></span>&nbsp;
-            <i class="fa fa-eye"></i>&nbsp;<span><?=$item["hit"]?></span>
+<!--            <i class="fa fa-eye"></i>&nbsp;<span>--><?//=$item["hit"]?><!--</span>-->
             <p style="margin-bottom: 12px;"></p>
         </div>
     </div>
