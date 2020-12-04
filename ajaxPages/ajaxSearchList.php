@@ -30,6 +30,7 @@ $target = mt_rand(1, 5);
 
         $(document).ready(function(){
             $(".jSlick").not(".slick-initialized").slick({
+                lazyLoad: "ondemand",
                 dots: false,
                 arrows:false,
                 infinite: true,
@@ -50,7 +51,7 @@ $target = mt_rand(1, 5);
 
         .media{
             margin-top: 0;
-            margin-bottom: 0rem !important;
+            margin-bottom: 1.0rem !important;
         }
         @media screen and (min-width: 770px) {
             .media{
@@ -85,7 +86,6 @@ $target = mt_rand(1, 5);
                 <div>
                     <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" alt="" />
                 </div>
-                <?echo $item["additional"]?>
                 <?foreach(str_getcsv($item["additional"]) as $ids){?>
                     <div>
                         <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $ids?>" alt="" />
