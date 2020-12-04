@@ -7,8 +7,8 @@
     }
 
     .float-button img{
-        width: 70px;
-        height: 70px;
+        width: 75px;
+        height: 75px;
     }
 
 </style>

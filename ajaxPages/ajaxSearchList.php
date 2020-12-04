@@ -10,7 +10,7 @@ $target = mt_rand(1, 5);
 <?foreach($list as $item){
         $idx++;
     ?>
-    <script src="assets/js/jquery.min.js"></script>
+
     <script>
         jQuery('img.svg').each(function(){
             var $img = jQuery(this);
@@ -27,6 +27,22 @@ $target = mt_rand(1, 5);
                 $img.replaceWith($svg);
             }, 'xml');
         });
+
+        $(document).ready(function(){
+            $(".jSlick").not(".slick-initialized").slick({
+                dots: false,
+                arrows:false,
+                infinite: true,
+                speed: 200,
+                slidesToShow: 1,
+                autoplay: true,
+                variableWidth: true
+            });
+
+            $(".jSlick").each(function(idx){
+                $(this).addClass("image left")
+            })
+        });
     </script>
     <style>
         svg {width: 2.0rem; height: 2.0rem;}
@@ -34,7 +50,7 @@ $target = mt_rand(1, 5);
 
         .media{
             margin-top: 0;
-            margin-bottom: 2.0rem !important;
+            margin-bottom: 0rem !important;
         }
         @media screen and (min-width: 770px) {
             .media{
@@ -42,6 +58,20 @@ $target = mt_rand(1, 5);
                 margin-bottom: 2.0em !important;
             }
         }
+
+        .jSlick{
+            margin-top: 0!important;
+            width: 125.19px;
+            height: 125.19px;
+        }
+        @media screen and (min-width: 770px) {
+            .jSlick{
+                margin-top: 0!important;
+                width: 170px !important;
+                height: 170px !important;
+            }
+        }
+
     </style>
 
     <div noticeID="<?=$item["id"]?>" class="col-twelve jDetail text-right" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
@@ -51,13 +81,35 @@ $target = mt_rand(1, 5);
         </div>
         <hr style="margin:0;" />
         <div class="align-left" style="margin-top:0; padding-top: 0;">
-            <p>
+            <div class="jSlick image left">
+                <div>
+                    <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" alt="" />
+                </div>
+                <?echo $item["additional"]?>
+                <?foreach(str_getcsv($item["additional"]) as $ids){?>
+                    <div>
+                        <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $ids?>" alt="" />
+                    </div>
+                <?}?>
+<!--                <div>-->
+<!--                    <img src="images/profile/남자4/3.png" alt="" />-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <img src="images/profile/남자4/4.png" alt="" />-->
+<!--                </div>-->
+            </div>
+            <p style="margin-top: 0">
+                <?if(false){?>
                 <span class="image left">
                     <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" alt="" /><!--style="width: 10.65rem"-->
                 </span>
+                <?}?>
                 <?="[{$item["rendezvousPoint"]}]"?>
             </p>
-            <p class="media"><?=$item["content"]?></p>
+            <p class="media">
+                <?=$item["content"]?>
+                <br/>
+            </p>
         </div>
         <div class="align-right">
             <i class="fa fa-list"></i>&nbsp;<span><?=$item["id"]?></span>&nbsp;

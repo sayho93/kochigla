@@ -70,6 +70,13 @@ class UserAuthRoute extends FileRoute {
         return $this->getRow($slt);
     }
 
+    function getUserNPic($no){
+        $slt = "SELECT *, (SELECT originName FROM tblFile WHERE id = thumbId) as thumbName FROM tblUser WHERE `id`='{$no}'";
+        $info = $this->getRow($slt);
+        $slt = "SELECT * FROM tblFile WHERE id != '{$info["thumbId"]}' AND userKey = '{$no}' ORDER BY regDate DESC LIMIT 3";
+        return array($info, self::getArray($slt));
+    }
+
     function joinUser(){
         $email = $_REQUEST["email"];
         $pwd = $_REQUEST["pwd"] != "" ?  $this->encryptAES256($_REQUEST["pwd"]) : "";
@@ -132,6 +139,11 @@ class UserAuthRoute extends FileRoute {
         if($thumb["tmp_name"][0] != ""){
             $tmp = self::procFiles($thumb, $id);
             $thumbId = $tmp[$thumb["name"][0]]["id"];
+        }
+
+        $additional = $_FILES["imgAdd"];
+        if($additional["tmp_name"][0] != ""){
+            $tmp = self::procFiles($additional, $id);
         }
 
         $ins = "

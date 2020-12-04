@@ -1,4 +1,6 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/header.php"; ?>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
         $(document).ready(function(){
             var currentPage = 1;

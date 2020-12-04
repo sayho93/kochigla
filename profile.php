@@ -10,8 +10,12 @@
     $uRoute = new UserAuthRoute();
     $pRoute = new PayRoute();
     $sRoute = new StoreRoute();
-    $user = $uRoute->getUser(AuthUtil::getLoggedInfo()->id);
+    $user = $uRoute->getUserNPic(AuthUtil::getLoggedInfo()->id);
+    $profile = $user[1];
+    $user = $user[0];
     $pUnit = $pRoute->getPoint($user["id"]);
+
+
 
     $greetingArr = array(
             "안녕하세요!", "반가워요!", "좋은 하루 보내고 계신가요?", "안녕하세요 :)"
@@ -25,9 +29,12 @@
             buttonLink(".jGoBalance", "balance.php");
             buttonLink(".jModifyStore", "profile_u.php");
             buttonLink(".jModifyMajor", "profile_m.php");
+            let idx = <?=$profile != "" ? 1 + sizeof($profile) : 1?>;
 
             $(document).on("click", ".browse", function(){
                 var idx = $(this).attr("idx");
+                console.log(idx);
+                console.log($(this).parents().find(".file").eq(idx).html());
                 var file = $(this).parents().find(".file").eq(idx);
                 file.trigger("click");
             });
@@ -36,18 +43,23 @@
                 $("#thumbFile").trigger("click");
             });
 
-            $('input.imgFile[type=file]').change(function(e){
-                var idx = $(this).attr("idx");
-                var fileName = e.target.files[0].name;
+            $(document).on("change", "input.imgFile[type=file]", (event) => {
+                var idx = $(event.target).attr("idx");
+                console.log(event.target);
+                var fileName = event.target.files[0].name;
+                console.log(fileName);
                 $("#file" + idx).val(fileName);
 
                 var reader = new FileReader();
-                reader.onload = function(e){
-                    $("#preview" + idx).attr("src", e.target.result);
+                reader.onload = (event) => {
+                    $("#preview" + idx).attr("src", event.target.result);
                     $("#preview" + idx).fadeIn();
                 };
-                reader.readAsDataURL(this.files[0]);
-            });
+                reader.readAsDataURL(event.target.files[0]);
+            })
+            // $('input.imgFile[type=file]').change(function(e){
+            //
+            // });
 
             $(".jSave").click(function(){
                 var data = new FormData($("#userForm")[0]);
@@ -89,7 +101,7 @@
                 });
             });
 
-            $(".jToggle").click(function(event){
+            $(".jToggle").click((event) => {
                 event.preventDefault();
                 if($(this).hasClass("primary")){
                     $(this).removeClass("primary");
@@ -98,6 +110,18 @@
                     $(this).addClass("primary");
                 }
             });
+
+            $(".jAdd").click(() => {
+                if(idx === 4){
+                    swal.fire("알림", "사진은 최대 4장까지만 추가 가능합니다.", "error");
+                    return;
+                }
+                let template = $("#jTemplate").html();
+                template = template.replace(/#{idx}/gi, idx);
+                template = template.replace(/#{fileName}/gi, "");
+                $(".jTarg").append(template);
+                idx++;
+            })
         });
     </script>
 			<!-- Main -->
@@ -130,7 +154,32 @@
                                         <div class="col-12 col-12-xsmall" style="margin-bottom: 1.0rem">
                                             <div align="center">
                                                 <button type="button" class="browse button primary" idx="0">파일 선택</button>
+                                                <button type="button" class="button jAdd">+</button>
                                             </div>
+                                        </div>
+                                        <div class="jTarg" style="width: 100%;">
+                                            <?if($profile != ""){
+                                                $idx = 0;
+                                                ?>
+                                                <?foreach($profile as $item){
+                                                    $idx++;
+                                                    ?>
+                                                    <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
+                                                        <img src="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=<?=$item["id"]?>" id="preview<?=$idx?>" class="img-thumbnail text-center"/>
+                                                    </div>
+
+                                                    <div class="col-12 col-12-xsmall">
+                                                        <label for="file0">추가 사진</label>
+                                                        <input type="file" name="imgAdd[]" class="file imgFile" idx="<?=$idx?>" accept="image/*" style="display: none;">
+                                                        <input type="text" class="form-control jImg" disabled placeholder="<?=$item["originName"]?>" id="<?=$idx?>" />
+                                                    </div>
+                                                    <div class="col-12 col-12-xsmall" style="margin-bottom: 1.0rem">
+                                                        <div align="center">
+                                                            <button type="button" class="browse button primary" idx="<?=$idx?>">파일 선택</button>
+                                                        </div>
+                                                    </div>
+                                                <?}?>
+                                            <?}?>
                                         </div>
 
                                         <div class="col-12 col-12-xsmall">
@@ -167,6 +216,23 @@
 
 					</div>
 				</div>
+
+                <div id="jTemplate" style="display: none">
+                    <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
+                        <img src="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=#{fileId}" id="preview#{idx}" class="img-thumbnail text-center" style=" display: none"/>
+                    </div>
+
+                    <div class="col-12 col-12-xsmall">
+                        <label for="file0">추가 사진</label>
+                        <input type="file" name="imgAdd[]" class="file imgFile" idx="#{idx}" accept="image/*" style="display: none;">
+                        <input type="text" class="form-control jImg" disabled placeholder="#{fileName}" id="file#{idx}" />
+                    </div>
+                    <div class="col-12 col-12-xsmall" style="margin-bottom: 1.0rem">
+                        <div align="center">
+                            <button type="button" class="browse button primary" idx="#{idx}">파일 선택</button>
+                        </div>
+                    </div>
+                </div>
 
 			<!-- Footer -->
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/inc/footer.php"; ?>

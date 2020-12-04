@@ -168,9 +168,11 @@ class BoardRoute extends FileRoute {
         $slt = "SELECT 
                     *,
                     (select thumbId FROM tblUser WHERE id = userId) as thumbId,
-                    (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbPath
+                    (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbPath,
+                    (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3) as additional
                 FROM tblSearch WHERE {$whereStmt}
                 ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
+
 
         return $this->getArray($slt);
     }
