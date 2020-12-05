@@ -164,7 +164,11 @@
                             callJson("<?="{$API_URL}"?>ChatRoute.createGroupAjaxK",{
                                     userId: "<?=$item["userId"]?>"
                                 }, function(data){
-                                    if(data.returnCode === 1) history.back();
+                                    if(data.returnCode === 1){
+                                        swal.fire("info", "채팅방이 생성되었습니다! <br/>우측 하단의 말풍선 버튼을 눌러 대화를 나눠보세요!", "success").then(() => {
+                                            history.back();
+                                        })
+                                    }
                                     else Swal.fire("info", "채팅방 생성중 오류가 발생했습니다.\n관리자에게 문의하세요", "error");
                                 }
                             )

@@ -77,6 +77,9 @@
                         <li><a href="balance.php" class="icon fa-database"> 내 포인트 : <?=$balance?>P</a></li>
                         <li><a href="profile.php" class="">마이페이지</a></li>
                         <li>
+                            <a href="myTrip.php" class="icon fa-map"> 내 여행</a>
+                        </li>
+                        <li>
                             <a href="data.php?type=R" class="">
                                 내가 받은 동행신청 -
                                 <i class="fa-stack fa-xs" style="font-size: 0.8rem">

@@ -33,8 +33,8 @@ $secondTarget = mt_rand(1, 5);
             $(".jSlick").not(".slick-initialized").slick({
                 dots: false,
                 arrows:false,
-                // centerPadding: '0',
-                // centerMode: true,
+                centerPadding: '0',
+                centerMode: true,
                 infinite: true,
                 speed: 200,
                 slidesToShow: 1,
