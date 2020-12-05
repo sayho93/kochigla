@@ -124,6 +124,7 @@ $secondTarget = mt_rand(1, 5);
             </p>
         </div>
         <div class="align-right">
+            <i style="color: orange;" class="fa fa-star"></i>&nbsp; <?=$item["score"] == null ? 0 : $item["score"]?>
             <i class="fa fa-list"></i>&nbsp;<span><?=$item["id"]?></span>&nbsp;
             <i class="fa fa-calendar"></i>&nbsp;<span><?=$item["regDate"]?></span>&nbsp;
 <!--            <i class="fa fa-eye"></i>&nbsp;<span>--><?//=$item["hit"]?><!--</span>-->

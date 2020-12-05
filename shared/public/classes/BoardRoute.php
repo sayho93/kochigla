@@ -169,7 +169,8 @@ class BoardRoute extends FileRoute {
                     *,
                     (select thumbId FROM tblUser WHERE id = userId) as thumbId,
                     (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbPath,
-                    (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3) as additional
+                    (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3) as additional,
+                    (SELECT FORMAT(SUM(score)/COUNT(*), 1) FROM tblReview WHERE targetUserId = tblSearch.userId) as score
                 FROM tblSearch WHERE {$whereStmt}
                 ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
 
@@ -263,8 +264,15 @@ class BoardRoute extends FileRoute {
         if($chk != "") return self::response(-1, "이미 리뷰를 등록한 동행입니다.");
 
         $ins = "
-            INSERT INTO tblReview(searchId, `userId`, `score`)
-            VALUES('{$searchId}', '{$userId}', '{$score}')
+            SELECT userId, (SELECT userId FROM tblSearch WHERE id = searchId) as userId2 
+            FROM tblMatch
+        ";
+        $info = self::getRow($ins);
+        $targetUserId = $info["userId"] == $userId ? $info["userId2"] : $info["userId"];
+
+        $ins = "
+            INSERT INTO tblReview(searchId, `userId`, `targetUserId`, `score`)
+            VALUES('{$searchId}', '{$userId}', '{$targetUserId}', '{$score}')
         ";
         self::update($ins);
         return self::response(1, "저장되었습니다.");
