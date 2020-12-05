@@ -226,5 +226,49 @@ class BoardRoute extends FileRoute {
         return self::response(1, "변경되었습니다.");
     }
 
+    function myTripList(){
+        $page = $_REQUEST["page"] == "" ? 1 : $_REQUEST["page"];
+        $query = $_REQUEST["query"];
+        $whereStmt = "status = 1 ";
+        $userId = AuthUtil::getLoggedInfo()->id;
+        if($_REQUEST["user"] == true) $whereStmt .= " AND userId = '{$userId}'";
+        if($query != "") $whereStmt .= " AND (`title` LIKE '%{$query}%' OR rendezvousPoint LIKE '%{$query}%')";
+
+        $startLimit = ($page - 1) * 5;
+        $slt = "
+            SELECT 
+                resTable.*,
+                IF(userId = '{$userId}', (SELECT thumbId FROM tblUser WHERE id = applierId),
+                    (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbId,
+                IF(userId = '{$userId}', (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = applierId)),
+                    (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId))) as thumbPath,
+                IF(userId = '{$userId}', (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = applierId ORDER BY regDate DESC LIMIT 3),
+                    (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3)) as additional
+            FROM (
+                SELECT S.*, M.userId as applierId
+                FROM tblMatch M JOIN tblSearch S on M.searchId = S.id
+                WHERE M.status = 1 AND (S.userId = '{$userId}' OR M.userId = '{$userId}')
+            ) as resTable
+            ORDER BY `regDate` DESC LIMIT {$startLimit}, 5
+        ";
+
+        return $this->getArray($slt);
+    }
+
+    function sendReview(){
+        $searchId = $_REQUEST["searchId"];
+        $userId = AuthUtil::getLoggedInfo()->id;
+        $score = $_REQUEST["score"];
+        $chk = self::getRow("SELECT * FROM tblReview WHERE searchId = '{$searchId}' AND userId = '{$userId}'");
+        if($chk != "") return self::response(-1, "이미 리뷰를 등록한 동행입니다.");
+
+        $ins = "
+            INSERT INTO tblReview(searchId, `userId`, `score`)
+            VALUES('{$searchId}', '{$userId}', '{$score}')
+        ";
+        self::update($ins);
+        return self::response(1, "저장되었습니다.");
+    }
+
 
 }

@@ -146,6 +146,8 @@
     <script src="assets/js/jquery.datetimepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.datetimepicker.css"/>
 
+    <script src="js/rater.js"></script>
+
     <style>
         .filepond--drop-label{
             color : #777;

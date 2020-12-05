@@ -180,6 +180,43 @@
             )
             $(this).attr("disabled", false);
         });
+
+        var options = {
+            max_value: 5,
+            step_size: 0.5,
+            initial_value: 0,
+            symbols:{
+                fontawesome_star: {
+                    base: '<i style="color: grey;" class="fa fa-lg fa-star"></i>',
+                    hover: '<i style="color: orange;" class="fa fa-lg fa-star"></i>',
+                    selected: '<i style="color: orange;" class="fa fa-lg fa-star"></i>',
+                },
+            },
+            selected_symbol_type: 'fontawesome_star',
+            cursor: 'default',
+            readonly: false,
+            change_once: false,
+        }
+
+        let rating = $(".rating");
+        rating.rate(options);
+        rating.rate("setValue", 0);
+
+        $(".jRev").click(() => {
+            callJson(
+                "/mygift/shared/public/route.php?F=BoardRoute.sendReview", {
+                    score: rating.rate("getValue"),
+                    searchId: "<?=$_REQUEST["id"]?>"
+                }, (data) => {
+                    if(data.returnCode === 1){
+                        swal.fire("info", data.returnMessage, "success").then(() => {
+                            history.back();
+                        })
+                    }
+                    else swal.fire("info", data.returnMessage, "error")
+                }
+            )
+        });
     });
 </script>
 <!-- Main -->
@@ -200,8 +237,18 @@
 
         <section id="content">
             <hr/>
-
             <div class="row gtr-uniform gtr-50">
+                <?if($_REQUEST["type"] == "my"){?>
+                    <div class="col-12 col-12-xsmall align-center">
+                        <label>상대를 평가해 주세요!</label>
+                        <div>
+                            <div class="rating" data-rate-value=6 style="display: inline-block"></div>
+                            <br/>
+                            <button class="jRev button primary icon fa-star small">평가하기</button>
+                        </div>
+                    </div>
+                <?}?>
+
                 <div class="col-12 col-12-xsmall">
                     <label>상세 내용</label>
                     <p><?=$item["content"]?></p>
@@ -253,7 +300,9 @@
                 </div>
 
                 <div class="col-12 align-center">
-                    <button class="jApply button primary icon fa-sign-in small" >지원하기</button>
+                    <?if($_REQUEST["type"] != "my"){?>
+                        <button class="jApply button primary icon fa-sign-in small" >지원하기</button>
+                    <?}?>
                     <a href="#" class="jBack button icon fa-list small">목록으로</a>
                 </div>
             </div>
