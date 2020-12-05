@@ -6,6 +6,7 @@ $list = $router->searchList();
 //echo json_encode($list);
 $idx = 0;
 $target = mt_rand(1, 5);
+$secondTarget = mt_rand(1, 5);
 ?>
 <?foreach($list as $item){
         $idx++;
@@ -30,7 +31,6 @@ $target = mt_rand(1, 5);
 
         $(document).ready(function(){
             $(".jSlick").not(".slick-initialized").slick({
-                lazyLoad: "ondemand",
                 dots: false,
                 arrows:false,
                 infinite: true,
@@ -128,13 +128,37 @@ $target = mt_rand(1, 5);
             </div>
             <hr style="margin:0;" />
             <div class="align-left">
-                <p>
-                    <span class="image left">
-                        <img src="images/ad.jpg" alt="" style=""/>
-                    </span>
-                    애월 방어, 연어, 육사시미 맛집: 애월연어
-                </p>
+                <div class="jSlick image left">
+                    <div><img src="images/ad<?=$i?>.jpg" alt="" /></div>
+                    <?for($i=2; $i<=4; $i++){?>
+                        <div><img src="images/ad<?=$i?>.png" alt="" /></div>
+                    <?}?>
+                </div>
+                <p>애월 방어, 연어, 육사시미 맛집: 애월연어</p>
                 <p class="media" style=""> 제주시 애월읍 하소로660 1층</p>
+                <div class="align-right">
+                    <img src="assets/css/images/ad.svg" class="svg" style="width: 2.0rem; color: white"/>
+                </div>
+            </div>
+        </div>
+    <?}?>
+    <?if($idx == $secondTarget){?>
+        <div class="col-twelve text-right jAd" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
+            <div class="text-left">
+                <h5 style="margin-top: 12px; font-size: 15px; margin-bottom: 5px;">
+                    <i class="fa fa-dot-circle"></i>&nbsp; (광고) 제주다이브
+                    <b style="float: right; font-size: 11px"><i class="fa fa-location-arrow"></i> 서귀포시 강정동</b>
+                </h5>
+            </div>
+            <hr style="margin:0;" />
+            <div class="align-left">
+                <div class="jSlick image left">
+                    <?for($i=1; $i<=4; $i++){?>
+                        <div><img src="images/adActivity<?=$i?>.png" alt="" /></div>
+                    <?}?>
+                </div>
+                <p>스쿠버교육 / 체험다이빙 / 아쿠아 플라넷: 제주다이브</p>
+                <p class="media" style=""> 제주특별자치도 서귀포시 강정동 월드컵로 84 씨월드펜션 </p>
                 <div class="align-right">
                     <img src="assets/css/images/ad.svg" class="svg" style="width: 2.0rem; color: white"/>
                 </div>
