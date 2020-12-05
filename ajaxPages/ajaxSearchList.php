@@ -33,6 +33,8 @@ $secondTarget = mt_rand(1, 5);
             $(".jSlick").not(".slick-initialized").slick({
                 dots: false,
                 arrows:false,
+                // centerPadding: '0',
+                // centerMode: true,
                 infinite: true,
                 speed: 200,
                 slidesToShow: 1,
@@ -53,21 +55,31 @@ $secondTarget = mt_rand(1, 5);
             margin-top: 0;
             margin-bottom: 1.0rem !important;
         }
-        @media screen and (min-width: 770px) {
-            .media{
-                margin-top: 4.0rem;
-                margin-bottom: 2.0em !important;
-            }
-        }
 
         .jSlick{
             margin-top: 0!important;
             width: 125.19px;
             height: 125.19px;
         }
+
+        .cImg{
+            width: 125.19px!important;
+            height: 125.19px!important;
+        }
+
         @media screen and (min-width: 770px) {
+            .media{
+                margin-top: 4.0rem;
+                margin-bottom: 2.0em !important;
+            }
+
             .jSlick{
                 margin-top: 0!important;
+                width: 170px !important;
+                height: 170px !important;
+            }
+
+            .cImg{
                 width: 170px !important;
                 height: 170px !important;
             }
@@ -84,11 +96,11 @@ $secondTarget = mt_rand(1, 5);
         <div class="align-left" style="margin-top:0; padding-top: 0;">
             <div class="jSlick image left">
                 <div>
-                    <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" alt="" />
+                    <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" class="cImg" alt="" />
                 </div>
                 <?foreach(str_getcsv($item["additional"]) as $ids){?>
                     <div>
-                        <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $ids?>" alt="" />
+                        <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $ids?>" class="cImg" alt="" />
                     </div>
                 <?}?>
 <!--                <div>-->
@@ -101,7 +113,7 @@ $secondTarget = mt_rand(1, 5);
             <p style="margin-top: 0">
                 <?if(false){?>
                 <span class="image left">
-                    <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>" alt="" /><!--style="width: 10.65rem"-->
+                    <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>"  alt="" /><!--style="width: 10.65rem"-->
                 </span>
                 <?}?>
                 <?="[{$item["rendezvousPoint"]}]"?>
@@ -129,9 +141,9 @@ $secondTarget = mt_rand(1, 5);
             <hr style="margin:0;" />
             <div class="align-left">
                 <div class="jSlick image left">
-                    <div><img src="images/ad<?=$i?>.jpg" alt="" /></div>
+                    <div><img src="images/ad1.jpg" alt="" /></div>
                     <?for($i=2; $i<=4; $i++){?>
-                        <div><img src="images/ad<?=$i?>.png" alt="" /></div>
+                        <div><img src="images/ad<?=$i?>.png" class="cImg" alt="" /></div>
                     <?}?>
                 </div>
                 <p>애월 방어, 연어, 육사시미 맛집: 애월연어</p>
@@ -154,7 +166,7 @@ $secondTarget = mt_rand(1, 5);
             <div class="align-left">
                 <div class="jSlick image left">
                     <?for($i=1; $i<=4; $i++){?>
-                        <div><img src="images/adActivity<?=$i?>.png" alt="" /></div>
+                        <div><img src="images/adActivity<?=$i?>.png" class="cImg" alt="" /></div>
                     <?}?>
                 </div>
                 <p>스쿠버교육 / 체험다이빙 / 아쿠아 플라넷: 제주다이브</p>
