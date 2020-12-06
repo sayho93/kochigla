@@ -156,7 +156,7 @@ $secondTarget = mt_rand(1, 5);
         </div>
     <?}?>
     <?if($idx == $secondTarget){?>
-        <div class="col-twelve text-right jAd" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
+        <div class="col-twelve text-right jAd2" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
             <div class="text-left">
                 <h5 style="margin-top: 12px; font-size: 15px; margin-bottom: 5px;">
                     <i class="fa fa-dot-circle"></i>&nbsp; (광고) 제주다이브

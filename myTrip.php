@@ -45,6 +45,10 @@
             $(document).on("click", ".jAd", () => {
                 window.open("https://www.youtube.com/watch?v=SvqWhMzSHgA");
             })
+
+            $(document).on("click", ".jAd2", () => {
+                window.open("https://youtu.be/EG4HOTLELLk");
+            })
         });
     </script>
 
