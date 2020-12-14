@@ -157,7 +157,8 @@
                                                 <button type="button" class="button jAdd">+</button>
                                             </div>
                                         </div>
-                                        <div class="jTarg" style="width: 100%;">
+
+                                        <div class="jTarg col-12 col-12-xsmall">
                                             <?if($profile != ""){
                                                 $idx = 0;
                                                 ?>
@@ -165,7 +166,7 @@
                                                     $idx++;
                                                     ?>
                                                     <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
-                                                        <img src="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=<?=$item["id"]?>" id="preview<?=$idx?>" class="img-thumbnail text-center"/>
+                                                        <img src="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=<?=$item["id"]?>" id="preview<?=$idx?>" class="img-thumbnail text-center" style="width: 100%"/>
                                                     </div>
 
                                                     <div class="col-12 col-12-xsmall">
@@ -175,7 +176,7 @@
                                                     </div>
                                                     <div class="col-12 col-12-xsmall" style="margin-bottom: 1.0rem">
                                                         <div align="center">
-                                                            <button type="button" class="browse button primary" idx="<?=$idx?>">파일 선택</button>
+                                                            <button type="button" class="browse button primary" idx="<?=$idx?>" style="margin-top:1.0rem">파일 선택</button>
                                                         </div>
                                                     </div>
                                                 <?}?>
@@ -219,7 +220,7 @@
 
                 <div id="jTemplate" style="display: none">
                     <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
-                        <img src="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=#{fileId}" id="preview#{idx}" class="img-thumbnail text-center" style=" display: none"/>
+                        <img src="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=#{fileId}" id="preview#{idx}" class="img-thumbnail text-center" style="width: 100%; display: none"/>
                     </div>
 
                     <div class="col-12 col-12-xsmall">
