@@ -10,6 +10,8 @@
     $bRoute = new BoardRoute();
     $item = $bRoute->searchInfo();
 
+    $revInfo = $bRoute->revInfo();
+
     $attached = $bRoute->getAttachedFiles($_REQUEST["id"]);
 ?>
 
@@ -200,7 +202,9 @@
 
         let rating = $(".rating");
         rating.rate(options);
-        rating.rate("setValue", 0);
+
+        let tmp = "<?=$revInfo == "" ? 0 : $revInfo["score"]?>";
+        rating.rate("setValue", tmp);
 
         $(".jRev").click(() => {
             callJson(

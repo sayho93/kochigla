@@ -256,6 +256,12 @@ class BoardRoute extends FileRoute {
         return $this->getArray($slt);
     }
 
+    function revInfo(){
+        $searchId = $_REQUEST["id"];
+        $userId = AuthUtil::getLoggedInfo()->id;
+        return self::getRow("SELECT * FROM tblReview WHERE searchId = '{$searchId}' AND userId = '{$userId}'");
+    }
+
     function sendReview(){
         $searchId = $_REQUEST["searchId"];
         $userId = AuthUtil::getLoggedInfo()->id;
