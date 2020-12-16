@@ -117,7 +117,7 @@ class ChatRoute extends Routable {
         $userId = AuthUtil::getLoggedInfo()->id;
         $sql = "SELECT *,
                 (SELECT COUNT(*) FROM tblGroupBinder WHERE `groupId` = tblChatGroup.id) AS members
-                FROM tblChatGroup WHERE `id` IN (SELECT groupId FROM tblGroupBinder WHERE userId='{$userId}') ORDER BY groupName DESC";
+                FROM tblChatGroup WHERE `id` IN (SELECT groupId FROM tblGroupBinder WHERE userId='{$userId}') ORDER BY tblChatGroup.regDate DESC";
         return $this->getArray($sql);
     }
 
