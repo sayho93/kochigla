@@ -210,7 +210,8 @@
             callJson(
                 "/mygift/shared/public/route.php?F=BoardRoute.sendReview", {
                     score: rating.rate("getValue"),
-                    searchId: "<?=$_REQUEST["id"]?>"
+                    searchId: "<?=$_REQUEST["id"]?>",
+                    applierId: "<?=$_REQUEST["applierId"]?>"
                 }, (data) => {
                     if(data.returnCode === 1){
                         swal.fire("info", data.returnMessage, "success").then(() => {

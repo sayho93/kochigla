@@ -203,9 +203,25 @@
 
                                         <div class="row">
                                             <div class="col-12 col-12-xsmall align-center">
-                                                <?for($i=0; $i<=27; $i++){?>
-                                                    <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#활발함</a>
-                                                <?}?>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENFP</a>
+<!--                                                --><?//for($i=0; $i<=27; $i++){?>
+<!--                                                    <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#활발함</a>-->
+<!--                                                --><?//}?>
                                             </div>
                                         </div>
                                         <div class="col-12 align-center">

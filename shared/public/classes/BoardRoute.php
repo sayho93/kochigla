@@ -246,11 +246,11 @@ class BoardRoute extends FileRoute {
                 IF(userId = '{$userId}', (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = applierId ORDER BY regDate DESC LIMIT 3),
                     (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3)) as additional
             FROM (
-                SELECT S.*, M.userId as applierId
+                SELECT S.*, M.userId as applierId, M.regDate as matchRegDate
                 FROM tblMatch M JOIN tblSearch S on M.searchId = S.id
                 WHERE M.status = 1 AND (S.userId = '{$userId}' OR M.userId = '{$userId}')
             ) as resTable
-            ORDER BY `regDate` DESC LIMIT {$startLimit}, 5
+            ORDER BY `matchRegDate` DESC LIMIT {$startLimit}, 5
         ";
 
         return $this->getArray($slt);
@@ -259,22 +259,20 @@ class BoardRoute extends FileRoute {
     function revInfo(){
         $searchId = $_REQUEST["id"];
         $userId = AuthUtil::getLoggedInfo()->id;
-        return self::getRow("SELECT * FROM tblReview WHERE searchId = '{$searchId}' AND userId = '{$userId}'");
+        $targetUserId = $_REQUEST["applierId"];
+
+        return self::getRow("SELECT * FROM tblReview WHERE searchId = '{$searchId}' AND userId = '{$userId}' AND targetUserId = '{$targetUserId}'");
     }
 
     function sendReview(){
         $searchId = $_REQUEST["searchId"];
         $userId = AuthUtil::getLoggedInfo()->id;
         $score = $_REQUEST["score"];
-        $chk = self::getRow("SELECT * FROM tblReview WHERE searchId = '{$searchId}' AND userId = '{$userId}'");
-        if($chk != "") return self::response(-1, "이미 리뷰를 등록한 동행입니다.");
 
-        $ins = "
-            SELECT userId, (SELECT userId FROM tblSearch WHERE id = searchId) as userId2 
-            FROM tblMatch
-        ";
-        $info = self::getRow($ins);
-        $targetUserId = $info["userId"] == $userId ? $info["userId2"] : $info["userId"];
+        $targetUserId = $_REQUEST["applierId"];
+
+        $chk = self::getRow("SELECT * FROM tblReview WHERE searchId = '{$searchId}' AND userId = '{$userId}' AND targetUserId = '{$targetUserId}'");
+        if($chk != "") return self::response(-1, "이미 리뷰를 등록한 동행입니다.");
 
         $ins = "
             INSERT INTO tblReview(searchId, `userId`, `targetUserId`, `score`)

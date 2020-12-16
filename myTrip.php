@@ -39,7 +39,7 @@
 
             $(document).on("click", ".jDetail", function(){
                 var id = $(this).attr("noticeID");
-                location.href = "searchDetail.php?id=" + id + "&type=my";
+                location.href = "searchDetail.php?id=" + id + "&type=my&applierId=" + $(this).attr("applierId");
             });
 
             $(document).on("click", ".jAd", () => {
