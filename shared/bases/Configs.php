@@ -59,10 +59,10 @@ if(!class_exists("Configs")) {
                     /**
                      * Database Config for DEV MODE
                      */
-                    DATABASE_HOST => "picklecode.co.kr",
+                    DATABASE_HOST => "sayho.site",
                     DATABASE_NAME => "kochigla",
-                    DATABASE_USER => "kochigla",
-                    DATABASE_PASSWORD => "kochigla!@#$",
+                    DATABASE_USER => "root",
+                    DATABASE_PASSWORD => "fishcreek!@#$",
                     DATABASE_CHARSET => "utf8"
                 ),
                 CONDUCT_MODE_TEST => array(

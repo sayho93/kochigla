@@ -67,10 +67,20 @@ $secondTarget = mt_rand(1, 5);
             height: 125.19px!important;
         }
 
+        .mediaP{
+            margin-top: 0;
+            margin-bottom: 0 !important;
+        }
+
         @media screen and (min-width: 770px) {
             .media{
                 margin-top: 4.0rem;
                 margin-bottom: 2.0em !important;
+            }
+
+            .mediaP{
+                margin-top: 0;
+                margin-bottom: 1.7rem !important;
             }
 
             .jSlick{
@@ -87,7 +97,7 @@ $secondTarget = mt_rand(1, 5);
 
     </style>
 
-    <div noticeID="<?=$item["id"]?>" class="col-twelve jDetail text-right" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;">
+    <div noticeID="<?=$item["id"]?>" class="col-twelve jDetail text-right" style="padding:0px 10px;font-size:13px;border: 1px #BBBBBB solid; border-radius:5px;margin-bottom: 10px;" userID="<?=$item["userId"]?>">
         <div class="text-left">
             <h5 style="margin-top: 12px; font-size: 15px; margin-bottom: 5px;">
                 <i class="fa fa-dot-circle"></i>&nbsp;<?=$item["title"]?></h5>
@@ -110,7 +120,7 @@ $secondTarget = mt_rand(1, 5);
 <!--                    <img src="images/profile/남자4/4.png" alt="" />-->
 <!--                </div>-->
             </div>
-            <p style="margin-top: 0">
+            <p class="mediaP">
                 <?if(false){?>
                 <span class="image left">
                     <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $item["thumbId"]?>"  alt="" /><!--style="width: 10.65rem"-->
@@ -118,7 +128,11 @@ $secondTarget = mt_rand(1, 5);
                 <?}?>
                 <?="[{$item["rendezvousPoint"]}]"?>
             </p>
-            <p class="media">
+            <?if($item["isAuth"] == "1"){?>
+                <button type="button" class="button small primary" style="margin-bottom: 0; background-color: forestgreen">인증 회원</button>
+            <?}?>
+            <button type="button" class="button small primary" style="margin-bottom: 0; background-color: darkred">ESFJ</button>
+            <p>
                 <?=$item["content"]?>
                 <br/>
             </p>

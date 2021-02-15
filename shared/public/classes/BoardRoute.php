@@ -168,6 +168,7 @@ class BoardRoute extends FileRoute {
         $slt = "SELECT 
                     *,
                     (select thumbId FROM tblUser WHERE id = userId) as thumbId,
+                    (SELECT isAuthorized FROM tblUser WHERE id = userId) as isAuth,
                     (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbPath,
                     (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3) as additional,
                     (SELECT FORMAT(SUM(score)/COUNT(*), 1) FROM tblReview WHERE targetUserId = tblSearch.userId) as score
