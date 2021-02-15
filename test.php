@@ -2,7 +2,7 @@
 <? include_once $_SERVER["DOCUMENT_ROOT"]."/mygift/shared/public/classes/RecognitionRoute.php"; ?>
 <?
 $route = new RecognitionRoute();
-$route->recognition();
+$route->test();
 ?>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.1.js" charset="utf-8"></script>
     <script>

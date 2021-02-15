@@ -24,6 +24,10 @@
     $greeting = $greetingArr[mt_rand(0, sizeof($greetingArr) - 1)];
 ?>
 
+        <script src="shared/lib/polyfill/es6-promise.auto.min.js"></script>
+        <script src="shared/lib/polyfill/browser-polyfill.min.js"></script>
+        <script src="shared/lib/filepond/filepond-polyfill.js"></script>
+        <script src="shared/lib/polyfill/babel.min.js"></script>
     <script>
         $(document).ready(function(){
             buttonLink(".jGoBalance", "balance.php");
@@ -41,6 +45,53 @@
 
             $(document).on("click", ".browseThumb", function(){
                 $("#thumbFile").trigger("click");
+            });
+
+            $(".browseAuth").click(() => {
+                $("#authFile").trigger("click");
+            });
+
+            $(document).on("change", "input.authImg[type=file]", (event) => {
+                var fileName = event.target.files[0].name;
+                console.log(fileName);
+
+                if(fileName != null){
+                    var data = new FormData($("#userForm")[0]);
+                    $.ajax({
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        url : "/mygift/shared/public/route.php?F=RecognitionRoute.authImg",
+                        cache : false,
+                        async : true,
+                        method : "post",
+                        dataType : "json",
+                        contentType: false,
+                        processData: false,
+                        data : data,
+                        success : function(data){
+                            console.log("[AJAX RESPONSE] " + data);
+                            var retData = JSON.parse(data);
+                            if(retData.returnCode > 0){
+                                if(retData.returnCode > 1){
+                                }else{
+                                    Swal.fire({
+                                        title: "알림",
+                                        text: retData.returnMessage,
+                                        icon: "success",
+                                        closeOnClickOutside: false,
+                                    }).then((result) => {
+                                        if(result) location.reload();
+                                    });
+                                }
+                            }else{
+                                Swal.fire("알림" ,  "오류가 발생하였습니다.\n관리자에게 문의하세요.", "error");
+                            }
+                        },
+                        error : function(req, stat, err){
+                            console.log("[AJAX ERROR] REQUEST : " + req + " / STATUS : " + stat + " / ERROR : " + err);
+                        }
+                    });
+                }
             });
 
             $(document).on("change", "input.imgFile[type=file]", (event) => {
@@ -101,14 +152,11 @@
                 });
             });
 
-            $(".jToggle").click((event) => {
+            $(".jToggle").click(function(event){
                 event.preventDefault();
-                if($(this).hasClass("primary")){
-                    $(this).removeClass("primary");
-                }
-                else{
-                    $(this).addClass("primary");
-                }
+                console.log($(this).html());
+                if($(this).hasClass("primary")) $(this).removeClass("primary");
+                else $(this).addClass("primary");
             });
 
             $(".jAdd").click(() => {
@@ -134,6 +182,12 @@
 						<!-- Content -->
 							<section id="content">
                                 <h4><?=$user["name"]?>님, <?=$greeting?></h4>
+                                <?if($user["isAuthorized"]){?>
+                                    <button type="button" class="button primary" style="margin-bottom: 1rem; background-color: forestgreen">인증 회원</button>
+                                <?}else{?>
+                                    <button type="button" class="browseAuth button primary" style="margin-bottom: 1rem;">인증하기</button>
+                                    <b> &nbsp;&nbsp;* 본인의 셀카 사진을 업로드하여 인증해주세요!</b>
+                                <?}?>
 
                                 <h4 class="button fit"><?=$user["email"]?></h4>
                                 <h5 class="button fit jGoBalance"><i class="icon fa-database"></i> 내 포인트 : <?=$pUnit?>P</h5>
@@ -141,6 +195,7 @@
                                 <form id="userForm" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="id" value="<?=$user["id"]?>"/>
                                     <input type="hidden" name="thumbId" value="<?=$user["thumbId"]?>"/>
+                                    <input type="file" name="authImg[]" class="file authImg" id="authFile" accept="image/*" style="display: none;">
                                     <div class="row gtr-uniform gtr-50" style="margin-top: 1.0rem">
                                         <div class="col-4 col-12-xsmall" style="margin-bottom: 0.5rem">
                                             <img src="<?="/mygift/shared/public/route.php?F=FileRoute.downloadFileById&id=" . $user["thumbId"]?>" id="preview0" class="img-thumbnail text-center" style="width: 100%; display: <?=$user["thumbId"] ? "" : "none"?>"/>
@@ -203,22 +258,22 @@
 
                                         <div class="row">
                                             <div class="col-12 col-12-xsmall align-center">
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ESFP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ISFP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#INFP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#ENFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INTJ">#INTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INTP">#INTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENTJ">#ENTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENTP">#ENTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISTJ">#ISTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESTJ">#ESTJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESFJ">#ESFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISFJ">#ISFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESTP">#ESTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISTP">#ISTP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESFP">#ESFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISFP">#ISFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENFJ">#ENFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INFJ">#INFJ</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INFP">#INFP</a>
+                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENFP">#ENFP</a>
 <!--                                                --><?//for($i=0; $i<=27; $i++){?>
 <!--                                                    <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#활발함</a>-->
 <!--                                                --><?//}?>
