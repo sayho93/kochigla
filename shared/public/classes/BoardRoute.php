@@ -163,7 +163,6 @@ class BoardRoute extends FileRoute {
         $userId = AuthUtil::getLoggedInfo()->id;
         if($_REQUEST["user"] == true) $whereStmt .= " AND userId = '{$userId}'";
         if($query != "") $whereStmt .= " AND (`title` LIKE '%{$query}%' OR rendezvousPoint LIKE '%{$query}%')";
-``
         $startLimit = ($page - 1) * 5;
         $slt = "SELECT 
                     *,

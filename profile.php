@@ -34,6 +34,7 @@
             buttonLink(".jModifyStore", "profile_u.php");
             buttonLink(".jModifyMajor", "profile_m.php");
             let idx = <?=$profile != "" ? 1 + sizeof($profile) : 1?>;
+            let mbti = "<?=$user["mbti"]?>";
 
             $(document).on("click", ".browse", function(){
                 var idx = $(this).attr("idx");
@@ -115,7 +116,7 @@
             $(".jSave").click(function(){
                 var data = new FormData($("#userForm")[0]);
                 data.append("sex", $(".jSex option:selected").val());
-
+                data.append("mbti", mbti);
                 $.ajax({
                     type: "POST",
                     enctype: 'multipart/form-data',
@@ -154,9 +155,20 @@
 
             $(".jToggle").click(function(event){
                 event.preventDefault();
-                console.log($(this).html());
-                if($(this).hasClass("primary")) $(this).removeClass("primary");
-                else $(this).addClass("primary");
+                let currentMBTI = $(this).text();
+                currentMBTI = currentMBTI.replace("#", "");
+
+
+                if($(this).hasClass("primary")){
+                    mbti = "";
+                    $(this).removeClass("primary");
+                }
+                else{
+                    mbti = currentMBTI;
+                    $(".mbti").removeClass("primary");
+                    $(this).addClass("primary")
+                }
+                console.log(mbti);
             });
 
             $(".jAdd").click(() => {
@@ -172,6 +184,14 @@
             })
         });
     </script>
+
+    <style>
+        .mbti{
+            border-radius: 10px;
+            margin-right: 0.2rem;
+            margin-top: 0.4rem
+        }
+    </style>
 			<!-- Main -->
 				<div id="main" class="wrapper style1">
 					<div class="container">
@@ -258,22 +278,22 @@
 
                                         <div class="row">
                                             <div class="col-12 col-12-xsmall align-center">
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INTJ">#INTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INTP">#INTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENTJ">#ENTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENTP">#ENTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISTJ">#ISTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESTJ">#ESTJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESFJ">#ESFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISFJ">#ISFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESTP">#ESTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISTP">#ISTP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ESFP">#ESFP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ISFP">#ISFP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENFJ">#ENFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INFJ">#INFJ</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="INFP">#INFP</a>
-                                                <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem" value="ENFP">#ENFP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "INTJ" ? "primary" : ""?>"  value="INTJ">#INTJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "INTP" ? "primary" : ""?>"  value="INTP">#INTP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ENTJ" ? "primary" : ""?>"  value="ENTJ">#ENTJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ENTP" ? "primary" : ""?>"  value="ENTP">#ENTP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ISTJ" ? "primary" : ""?>"  value="ISTJ">#ISTJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ESTJ" ? "primary" : ""?>"  value="ESTJ">#ESTJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ESFJ" ? "primary" : ""?>"  value="ESFJ">#ESFJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ISFJ" ? "primary" : ""?>"  value="ISFJ">#ISFJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ESTP" ? "primary" : ""?>"  value="ESTP">#ESTP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ISTP" ? "primary" : ""?>"  value="ISTP">#ISTP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ESFP" ? "primary" : ""?>"  value="ESFP">#ESFP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ISFP" ? "primary" : ""?>"  value="ISFP">#ISFP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "ENFJ" ? "primary" : ""?>"  value="ENFJ">#ENFJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "INFJ" ? "primary" : ""?>"  value="INFJ">#INFJ</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["mbti"] == "INFP" ? "primary" : ""?>"  value="INFP">#INFP</a>
+                                                <a href="#" class="button small jToggle mbti <?=$user["ENFP"] == "INTJ" ? "primary" : ""?>"  value="ENFP">#ENFP</a>
 <!--                                                --><?//for($i=0; $i<=27; $i++){?>
 <!--                                                    <a href="#" class="button small jToggle" style="border-radius: 10px; margin-left: 0.2rem; margin-top: 0.2rem">#활발함</a>-->
 <!--                                                --><?//}?>

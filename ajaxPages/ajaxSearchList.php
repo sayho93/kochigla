@@ -132,7 +132,7 @@ $secondTarget = mt_rand(1, 5);
                 <button type="button" class="button small primary" style="margin-bottom: 0; background-color: forestgreen">인증 회원</button>
             <?}?>
             <?if($item["mbti"] != "" && $item["mbti"] != null){?>
-                <button type="button" class="button small primary" style="margin-bottom: 0; background-color: darkred"><?=$item["mbti"]?></button>
+                <button type="button" class="button small primary" style="margin-bottom: 0; background-color: orangered"><?=$item["mbti"]?></button>
             <?}?>
             <p>
                 <?=$item["content"]?>

@@ -133,6 +133,7 @@ class UserAuthRoute extends FileRoute {
         $age = $_REQUEST["age"];
         $sex = $_REQUEST["sex"];
         $phone = $_REQUEST["phone"];
+        $mbti = $_REQUEST["mbti"];
 
         $thumbId = $_REQUEST["thumbId"];
         $thumb = $_FILES["img"];
@@ -152,7 +153,8 @@ class UserAuthRoute extends FileRoute {
                 `age` = '{$age}',
                 `sex` = '{$sex}',
                 `phone` = '{$phone}',
-                `thumbId` = '{$thumbId}'
+                `thumbId` = '{$thumbId}',
+                `mbti` = '{$mbti}'
             WHERE `id` = '{$id}'
         ";
         self::update($ins);
