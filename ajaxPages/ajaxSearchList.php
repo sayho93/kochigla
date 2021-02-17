@@ -131,7 +131,7 @@ $secondTarget = mt_rand(1, 5);
             <?if($item["isAuth"] == "1"){?>
                 <button type="button" class="button small primary" style="margin-bottom: 0; background-color: forestgreen">인증 회원</button>
             <?}?>
-            <button type="button" class="button small primary" style="margin-bottom: 0; background-color: darkred">ESFJ</button>
+            <button type="button" class="button small primary" style="margin-bottom: 0; background-color: darkred"><?=$item["mbti"]?></button>
             <p>
                 <?=$item["content"]?>
                 <br/>

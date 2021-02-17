@@ -163,7 +163,7 @@ class BoardRoute extends FileRoute {
         $userId = AuthUtil::getLoggedInfo()->id;
         if($_REQUEST["user"] == true) $whereStmt .= " AND userId = '{$userId}'";
         if($query != "") $whereStmt .= " AND (`title` LIKE '%{$query}%' OR rendezvousPoint LIKE '%{$query}%')";
-
+``
         $startLimit = ($page - 1) * 5;
         $slt = "SELECT 
                     *,
@@ -171,7 +171,8 @@ class BoardRoute extends FileRoute {
                     (SELECT isAuthorized FROM tblUser WHERE id = userId) as isAuth,
                     (SELECT path from tblFile WHERE id = (SELECT thumbId FROM tblUser WHERE id = userId)) as thumbPath,
                     (SELECT GROUP_CONCAT(id) FROM tblFile WHERE id != thumbId AND userKey = userId ORDER BY regDate DESC LIMIT 3) as additional,
-                    (SELECT FORMAT(SUM(score)/COUNT(*), 1) FROM tblReview WHERE targetUserId = tblSearch.userId) as score
+                    (SELECT FORMAT(SUM(score)/COUNT(*), 1) FROM tblReview WHERE targetUserId = tblSearch.userId) as score,
+                    (SELECT mbti FROM tblUser WHERE id = userId) as mbti
                 FROM tblSearch WHERE {$whereStmt}
                 ORDER BY `regDate` DESC LIMIT {$startLimit}, 5";
 
